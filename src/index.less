@@ -1,0 +1,32 @@
+@import '@ergolabs/ui-kit/dist/styles/styles';
+
+@s: 320px;
+@m: 768px;
+@l: 1280px;
+@xl: 1280px;
+@xxl: 1920px;
+
+html {
+  //background: #000;
+}
+
+body {
+  .darkTheme();
+  background: var(--spectrum-glow-gradient);
+  --spectrum-logo-color: var(--spectrum-primary-text);
+  --spectrum-primary-color: #0ca581;
+  --spectrum-primary-color-hover: #0a8c6e;
+  --spectrum-primary-color-active: #0ca581;
+  --spectrum-connect-wallet-btn-color: #38b598;
+  --spectrum-connect-wallet-btn-bg: rgba(56, 181, 152, 0.2);
+  --spectrum-connect-wallet-btn-border: #09755c;
+  --spectrum-font-family: 'Vela Sans';
+
+  @media (min-width: @m) {
+    --spectrum-modal-padding: calc(var(--spectrum-base-gutter) * 6);
+  }
+}
+
+.kyc-modal-opened {
+  overflow: hidden;
+}
