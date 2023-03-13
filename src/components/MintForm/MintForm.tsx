@@ -68,14 +68,16 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
       >
         <Flex col>
           <Flex.Item marginBottom={6}>
-            <Typography.Body>Mint DexyGold</Typography.Body>
+            <Typography.Title level={4}>Mint DexyGold</Typography.Title>
           </Flex.Item>
           <Flex.Item>
             <AssetControlFormItem
+              showBalances
               bordered={false}
               amountName="baseAmount"
               tokenName="baseAsset"
               readonly="asset"
+              label="ERG deposit"
             />
           </Flex.Item>
 
@@ -83,14 +85,21 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
 
           <Flex.Item>
             <AssetControlFormItem
+              showBalances
               bordered={false}
               amountName="mintAmount"
               tokenName="mintAsset"
               readonly="asset"
+              label="To mint"
             />
           </Flex.Item>
         </Flex>
       </OperationForm>
+      <Flex.Item marginTop={4} justify="center">
+        <Typography.Text type="secondary" style={{ color: '#8A8A8A' }}>
+          Powered by Spectrum Finance liquidity pools
+        </Typography.Text>
+      </Flex.Item>
     </Box>
   );
 };

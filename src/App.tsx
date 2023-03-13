@@ -1,4 +1,10 @@
-import { ContextModalProvider, Flex, useDevice } from '@ergolabs/ui-kit';
+import {
+  Col,
+  ContextModalProvider,
+  Flex,
+  Row,
+  useDevice,
+} from '@ergolabs/ui-kit';
 import { DateTime, Interval } from 'luxon';
 import React, { FC, useEffect } from 'react';
 import styled from 'styled-components';
@@ -7,9 +13,11 @@ import { useObservable } from './common/hooks/useObservable';
 import { ergoWasm$ } from './common/services/ergoWasm';
 import { startAppTicks } from './common/streams/appTick';
 import { device } from './common/utils/size';
+import BankInfo from './components/BankInfo/BankInfo';
 import { Glow } from './components/Grow/Grow';
 import { Header } from './components/Header/Header';
 import { MintForm } from './components/MintForm/MintForm';
+import TradeInfo from './components/TradeInfo/TradeInfo';
 
 const Container = styled(Flex)`
   max-width: 1440px;
@@ -34,7 +42,6 @@ const Content = styled(Flex)`
 `;
 
 export const App: FC = () => {
-  const { valBySize, s } = useDevice();
   const [applicationReady] = useObservable(ergoWasm$);
 
   useEffect(() => {
@@ -53,11 +60,23 @@ export const App: FC = () => {
               <Header />
             </Flex.Item>
 
-            <Content col>
-              <Flex.Item marginTop={20}>
-                <MintForm />
-              </Flex.Item>
-            </Content>
+            <Flex.Item marginTop={20}>
+              <Content>
+                <Col span={12} offset={6}>
+                  <Flex col>
+                    <Flex.Item marginBottom={4}>
+                      <BankInfo />
+                    </Flex.Item>
+                    <Flex.Item marginBottom={4}>
+                      <MintForm />
+                    </Flex.Item>
+                    <Flex.Item>
+                      <TradeInfo />
+                    </Flex.Item>
+                  </Flex>
+                </Col>
+              </Content>
+            </Flex.Item>
           </Container>
         </ContextModalProvider>
       )}

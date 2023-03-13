@@ -60,6 +60,7 @@ export interface AssetControlFormItemProps {
   readonly importedAssets$?: Observable<AssetInfo[]>;
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly bordered?: boolean;
+  readonly label?: string;
   readonly loading?: boolean;
   readonly showBalances?: boolean;
   readonly getMaxAmount?: () => Currency | undefined;
@@ -73,6 +74,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   readonly,
   loading,
   showBalances,
+  label,
   getMaxAmount,
 }) => {
   const { form } = useFormContext();
@@ -108,6 +110,26 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   return (
     <Box padding={3} secondary borderRadius="l">
       <Flex col>
+        <Flex align="center" justify="space-between">
+          {label && (
+            <Flex.Item align="center">
+              <Flex.Item flex={1}>
+                <Typography.Body secondary>{label}</Typography.Body>
+              </Flex.Item>
+            </Flex.Item>
+          )}
+          {showBalances && balance && (
+            <Form.Listener name={tokenName}>
+              {({ value }) => (
+                <Flex.Item justify="flex-end">
+                  <Typography.Body secondary>
+                    Balance: {balance?.get(value).toString()}
+                  </Typography.Body>
+                </Flex.Item>
+              )}
+            </Form.Listener>
+          )}
+        </Flex>
         <Flex.Item
           align="center"
           marginBottom={showBalances && balance ? 1 : 0}
@@ -142,24 +164,6 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
             )}
           </Flex.Item>
         </Flex.Item>
-        {showBalances && balance && (
-          <Form.Listener name={tokenName}>
-            {({ value }) => (
-              <Flex.Item justify="flex-end">
-                <Typography.Body secondary>
-                  Balance:{' '}
-                  <Button
-                    onClick={handleMaxButtonClick}
-                    type="link"
-                    style={{ padding: 0, display: 'inline-block' }}
-                  >
-                    {balance?.get(value).toCurrencyString()}
-                  </Button>
-                </Typography.Body>
-              </Flex.Item>
-            )}
-          </Form.Listener>
-        )}
       </Flex>
     </Box>
   );

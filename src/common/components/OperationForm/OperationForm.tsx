@@ -100,7 +100,7 @@ export function OperationForm<T>({
               loading={loading || submitting}
               disabled={disabled}
               type="primary"
-              size="large"
+              size="extra-large"
               width="100%"
               htmlType="submit"
             >

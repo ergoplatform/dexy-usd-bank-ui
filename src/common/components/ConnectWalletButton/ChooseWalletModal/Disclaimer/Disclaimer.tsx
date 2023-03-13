@@ -31,15 +31,8 @@ export const Disclaimer: React.FC = () => {
   return (
     <DisclaimerWrapper padding={[2, 4]} borderRadius="l">
       <Typography.Body size="small">
-        By connecting a wallet, you agree to the{' '}
-        <a href="https://spectrum.fi/terms" target="_blank" rel="noreferrer">
-          Terms of service
-        </a>{' '}
-        and acknowledge that you have read and understand the{' '}
-        <a href="https://spectrum.fi/privacy" target="_blank" rel="noreferrer">
-          Privacy policy
-        </a>
-        .
+        By connecting a wallet, you agree to the Cookie policy and acknowledge
+        that you have read and understand the Protocol disclaimer.
       </Typography.Body>
     </DisclaimerWrapper>
   );
