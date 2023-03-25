@@ -21,10 +21,14 @@ export interface OperationFormProps<T> {
   ) => Observable<any> | void | Promise<any>;
   readonly children?: ReactNode | ReactNode[] | string;
   readonly submitting?: boolean;
+  readonly getInsufficientTokenNameForFee: (value: any) => boolean;
+  readonly isAmountNotEntered: (value: any) => boolean;
 }
 
 const CHECK_INTERNET_CONNECTION_CAPTION = `Check Internet Connection`;
 const LOADING_WALLET_CAPTION = `Loading`;
+const INSUFFICIENT_TOKEN_BALANCE = `Insufficient ERG Balance`;
+const AMOUNT_NOT_ENTERED = `Enter amount`;
 
 export function OperationForm<T>({
   validators,
@@ -33,6 +37,8 @@ export function OperationForm<T>({
   children,
   actionCaption,
   submitting,
+  getInsufficientTokenNameForFee,
+  isAmountNotEntered,
 }: OperationFormProps<T>): JSX.Element {
   const [isOnline] = useObservable(isOnline$);
   const [, isBalanceLoading] = useObservable(balance$);
@@ -63,6 +69,21 @@ export function OperationForm<T>({
         disabled: false,
         loading: true,
         caption: LOADING_WALLET_CAPTION,
+      });
+    } else if (isAmountNotEntered && isAmountNotEntered(value)) {
+      setButtonProps({
+        disabled: true,
+        loading: false,
+        caption: AMOUNT_NOT_ENTERED,
+      });
+    } else if (
+      getInsufficientTokenNameForFee &&
+      getInsufficientTokenNameForFee(value)
+    ) {
+      setButtonProps({
+        caption: INSUFFICIENT_TOKEN_BALANCE,
+        disabled: true,
+        loading: false,
       });
     } else {
       const caption = validators?.map((v) => v(form)).find(Boolean);

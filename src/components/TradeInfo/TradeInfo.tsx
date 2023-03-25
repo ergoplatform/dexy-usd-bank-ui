@@ -6,7 +6,7 @@ import { ReactComponent as OpenIcon } from '../../assets/OpeninNew.svg';
 const TradeInfo = () => {
   return (
     <Box borderRadius={'xl'} padding={4}>
-      <Flex.Item justify="center" marginBottom={2} gap={6}>
+      <Flex.Item justify="center" gap={6}>
         <Flex.Item marginRight={20}>
           <Typography.Link style={{ fontSize: '16px' }}>
             <Flex align="center" gap={0.5}>

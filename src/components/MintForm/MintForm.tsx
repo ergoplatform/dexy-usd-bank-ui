@@ -9,8 +9,12 @@ import {
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
+import { FreeMint } from 'dexy-sdk-ts';
+import { ErgoBox } from 'ergo-lib-wasm-browser';
 import React, { FC, ReactNode, useState } from 'react';
+import { skip } from 'rxjs';
 
+import { balance$, useAssetsBalance } from '../../api/balance/balance';
 import { ergAsset } from '../../common/assets/ergAsset';
 import { ergopadAsset } from '../../common/assets/ergopadAsset';
 import { sigUsdAsset } from '../../common/assets/sigUsdAsset';
@@ -19,6 +23,10 @@ import {
   OperationForm,
   OperationValidator,
 } from '../../common/components/OperationForm/OperationForm';
+import {
+  useObservable,
+  useSubscription,
+} from '../../common/hooks/useObservable';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { SwitchButton } from './SwitchButton/SwitchButton';
@@ -43,6 +51,60 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     mintAsset: sigUsdAsset,
   });
 
+  const [balance] = useAssetsBalance();
+  const oracleBox = ErgoBox.from_json(
+    JSON.stringify({
+      boxId: 'efc9ee45a7a4040df37347109e79354994d81e2b37b6f3f2329bda7e8934117e',
+      value: 1000000,
+      ergoTree: '10010101d17300',
+      creationHeight: 123414,
+      assets: [
+        {
+          tokenId:
+            '472b4b6250655368566d597133743677397a24432646294a404d635166546a57',
+          amount: 1,
+        },
+      ],
+      additionalRegisters: {
+        R4: '05a09c01',
+      },
+      transactionId:
+        'f9e5ce5aa0d95f5d54a7bc89c46730d9662397067250aa18a0039631c0f5b808',
+      index: 1,
+    }),
+  );
+  const freeMint = new FreeMint();
+
+  const pool = {
+    calculateOutputAmount: (value: Currency) =>
+      freeMint.ergNeeded(value.toAmount(), oracleBox),
+  };
+  useSubscription(
+    form.controls.baseAmount.valueChanges$.pipe(skip(1)),
+    (value) => {
+      if (value) {
+        form.controls.mintAmount.patchValue(pool.calculateOutputAmount(value), {
+          emitEvent: 'silent',
+        });
+      } else {
+        form.controls.mintAmount.patchValue(undefined, { emitEvent: 'silent' });
+      }
+    },
+  );
+
+  useSubscription(
+    form.controls.mintAmount.valueChanges$.pipe(skip(1)),
+    (value) => {
+      if (value) {
+        form.controls.baseAmount.patchValue(pool.calculateInputAmount(value), {
+          emitEvent: 'silent',
+        });
+      } else {
+        form.controls.mintAmount.patchValue(undefined, { emitEvent: 'silent' });
+      }
+    },
+  );
+
   const amountRequiredValidator: OperationValidator<CommitmentFormModel> = (
     form,
   ) => (!form.value.baseAmount?.isPositive() ? 'Enter an amount' : undefined);
@@ -57,6 +119,24 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     }
   };
 
+  const isAmountNotEntered = ({ baseAmount, mintAmount }: any) => {
+    if (
+      (!baseAmount?.isPositive() && mintAmount?.isPositive()) ||
+      (!mintAmount?.isPositive() && baseAmount?.isPositive())
+    ) {
+      return false;
+    }
+
+    return !baseAmount?.isPositive() || !mintAmount?.isPositive();
+  };
+
+  const getInsufficientTokenNameForFee = ({ baseAmount }: Required<any>) => {
+    console.log(baseAmount);
+    const totalFeesWithAmount = baseAmount.plus(2n); // TODO: change 2n to totalFee
+    return false;
+    // return totalFeesWithAmount.gt(balance.get(ergAsset)) ? true : false;
+  };
+
   return (
     <Box borderRadius="l" padding={4}>
       <OperationForm
@@ -65,6 +145,8 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
         form={form}
         submitting={submitting}
         onSubmit={submit}
+        getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
+        isAmountNotEntered={isAmountNotEntered}
       >
         <Flex col>
           <Flex.Item marginBottom={6}>
@@ -76,7 +158,7 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
               bordered={false}
               amountName="baseAmount"
               tokenName="baseAsset"
-              readonly="asset"
+              readonly="amount"
               label="ERG deposit"
             />
           </Flex.Item>

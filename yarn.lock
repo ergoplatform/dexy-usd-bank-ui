@@ -4942,6 +4942,13 @@ detect-port-alt@1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
+dexy-sdk-ts@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.0.1.tgz#622c613490abb084bdf14b5b32913e2920f1f9ca"
+  integrity sha512-Ml6Ps+iQTWkh7vx4m4zejhav8l6+Z4y+JVkfnRePZbr40T6icDFPr+3cSQWoYH+rdnzW7GVWQ9yuVHjsL+n9kA==
+  dependencies:
+    ergo-lib-wasm-browser "^0.23.0"
+
 diff-sequences@^26.6.2:
   version "26.6.2"
   resolved "https://registry.npmjs.org/diff-sequences/-/diff-sequences-26.6.2.tgz"
@@ -5259,6 +5266,11 @@ ergo-lib-wasm-browser@0.20.1, ergo-lib-wasm-browser@^0.20.1:
   version "0.20.1"
   resolved "https://registry.npmjs.org/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.20.1.tgz"
   integrity sha512-g324oXm9kdNphqVuiIzb1lWpawASp7zihcqc8wmr+/xwB8RBSEV+IBwAu4RYMRHNwlwffsPOtKvk+lRpxUFVxQ==
+
+ergo-lib-wasm-browser@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.23.0.tgz#e9252d0f4f4faefcff5bb552fb901cfb7e880cae"
+  integrity sha512-wtxob1TJo8ocODqdWrOASOIbD0Gtd8ge6S6snMuqOVsX4hTgHupfNozJK0TAdGbWl1uo6Oo4hKZxUDi8xQOuiA==
 
 ergo-lib-wasm-nodejs@0.20.1, ergo-lib-wasm-nodejs@^0.20.1:
   version "0.20.1"

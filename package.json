@@ -25,6 +25,7 @@
     "axios": "^0.24.0",
     "craco-less": "^1.20.0",
     "decorator-cache-getter": "^1.0.0",
+    "dexy-sdk-ts": "^0.0.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "lodash": "^4.17.21",
     "luxon": "^2.1.1",

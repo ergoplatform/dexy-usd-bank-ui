@@ -2,6 +2,7 @@ import { AssetInfo } from '@ergolabs/ergo-sdk';
 import {
   Box,
   Button,
+  Divider,
   Flex,
   Form,
   Typography,
@@ -108,63 +109,58 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   };
 
   return (
-    <Box padding={3} secondary borderRadius="l">
-      <Flex col>
-        <Flex align="center" justify="space-between">
-          {label && (
-            <Flex.Item align="center">
-              <Flex.Item flex={1}>
-                <Typography.Body secondary>{label}</Typography.Body>
-              </Flex.Item>
+    <Flex col>
+      <Flex align="center" justify="space-between">
+        {label && (
+          <Flex.Item align="center">
+            <Flex.Item flex={1}>
+              <Typography.Body secondary>{label}</Typography.Body>
             </Flex.Item>
-          )}
-          {showBalances && balance && (
-            <Form.Listener name={tokenName}>
-              {({ value }) => (
-                <Flex.Item justify="flex-end">
-                  <Typography.Body secondary>
-                    Balance: {balance?.get(value).toString()}
-                  </Typography.Body>
-                </Flex.Item>
-              )}
-            </Form.Listener>
-          )}
-        </Flex>
-        <Flex.Item
-          align="center"
-          marginBottom={showBalances && balance ? 1 : 0}
-        >
-          <Flex.Item marginRight={2} flex={1}>
-            {amountName && (
-              <Form.Item name={amountName}>
-                {({ value, onChange }) => (
-                  <AssetAmountInput
-                    readonly={isAmountReadOnly() || loading}
-                    value={value}
-                    asset={selectedAsset}
-                    onChange={onChange}
-                  />
-                )}
-              </Form.Item>
-            )}
           </Flex.Item>
-          <Flex.Item marginLeft={2}>
-            {tokenName && (
-              <Form.Item name={tokenName}>
-                {({ value }) => (
-                  <AssetSelect
-                    loading={loading}
-                    assetsToImport$={assetsToImport$}
-                    importedAssets$={importedAssets$}
-                    readonly={isAssetReadOnly()}
-                    value={value}
-                  />
-                )}
-              </Form.Item>
+        )}
+        {showBalances && balance && (
+          <Form.Listener name={tokenName}>
+            {({ value }) => (
+              <Flex.Item justify="flex-end">
+                <Typography.Body secondary>
+                  Balance: {balance?.get(value).toString()}
+                </Typography.Body>
+              </Flex.Item>
             )}
-          </Flex.Item>
-        </Flex.Item>
+          </Form.Listener>
+        )}
       </Flex>
-    </Box>
+      <Flex.Item align="center" marginBottom={4}>
+        <Flex.Item marginRight={2} flex={1}>
+          {amountName && (
+            <Form.Item name={amountName}>
+              {({ value, onChange }) => (
+                <AssetAmountInput
+                  readonly={isAmountReadOnly() || loading}
+                  value={value}
+                  asset={selectedAsset}
+                  onChange={onChange}
+                />
+              )}
+            </Form.Item>
+          )}
+        </Flex.Item>
+        <Flex.Item marginLeft={2}>
+          {tokenName && (
+            <Form.Item name={tokenName}>
+              {({ value }) => (
+                <AssetSelect
+                  loading={loading}
+                  assetsToImport$={assetsToImport$}
+                  importedAssets$={importedAssets$}
+                  readonly={isAssetReadOnly()}
+                  value={value}
+                />
+              )}
+            </Form.Item>
+          )}
+        </Flex.Item>
+      </Flex.Item>
+    </Flex>
   );
 };

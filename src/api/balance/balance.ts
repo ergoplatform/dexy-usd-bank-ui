@@ -6,6 +6,7 @@ import {
   refCount,
 } from 'rxjs';
 
+import { useObservable } from '../../common/hooks/useObservable';
 import { Balance } from '../../common/models/Balance';
 import { networkAssetBalance$ } from '../networkAssetBalance/networkAssetBalance';
 import { availableTokensData$ } from './availableTokensData';
@@ -24,3 +25,6 @@ export const balance$ = combineLatest([
   publishReplay(1),
   refCount(),
 );
+
+export const useAssetsBalance = (): [Balance, boolean, Error] =>
+  useObservable(balance$, [], new Balance([]));
