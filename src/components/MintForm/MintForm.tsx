@@ -1,3 +1,4 @@
+import { RustModule } from '@ergolabs/ergo-sdk';
 import {
   ArrowDownOutlined,
   ArrowLeftOutlined,
@@ -10,7 +11,6 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { FreeMint } from 'dexy-sdk-ts';
-import { ErgoBox } from 'ergo-lib-wasm-browser';
 import React, { FC, ReactNode, useState } from 'react';
 import { skip } from 'rxjs';
 
@@ -52,7 +52,7 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
   });
 
   const [balance] = useAssetsBalance();
-  const oracleBox = ErgoBox.from_json(
+  const oracleBox = RustModule.SigmaRust.ErgoBox.from_json(
     JSON.stringify({
       boxId: 'efc9ee45a7a4040df37347109e79354994d81e2b37b6f3f2329bda7e8934117e',
       value: 1000000,
@@ -76,21 +76,20 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
   const freeMint = new FreeMint();
 
   const pool = {
-    calculateOutputAmount: (value: Currency) =>
-      freeMint.ergNeeded(value.toAmount(), oracleBox),
+    calculateInputAmount: (value: Currency) => value,
   };
-  useSubscription(
-    form.controls.baseAmount.valueChanges$.pipe(skip(1)),
-    (value) => {
-      if (value) {
-        form.controls.mintAmount.patchValue(pool.calculateOutputAmount(value), {
-          emitEvent: 'silent',
-        });
-      } else {
-        form.controls.mintAmount.patchValue(undefined, { emitEvent: 'silent' });
-      }
-    },
-  );
+  // useSubscription(
+  //   form.controls.baseAmount.valueChanges$.pipe(skip(1)),
+  //   (value) => {
+  //     if (value) {
+  //       form.controls.mintAmount.patchValue(pool.calculateOutputAmount(value), {
+  //         emitEvent: 'silent',
+  //       });
+  //     } else {
+  //       form.controls.mintAmount.patchValue(undefined, { emitEvent: 'silent' });
+  //     }
+  //   },
+  // );
 
   useSubscription(
     form.controls.mintAmount.valueChanges$.pipe(skip(1)),
@@ -100,7 +99,7 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
           emitEvent: 'silent',
         });
       } else {
-        form.controls.mintAmount.patchValue(undefined, { emitEvent: 'silent' });
+        form.controls.baseAmount.patchValue(undefined, { emitEvent: 'silent' });
       }
     },
   );
