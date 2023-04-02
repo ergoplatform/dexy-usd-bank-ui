@@ -9,7 +9,7 @@ import {
 } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
-import { sigUsdAsset } from '../../common/assets/sigUsdAsset';
+import { dexyGoldAsset } from '../../common/assets/dexyGoldAsset';
 import { Ratio } from '../../common/models/Ratio';
 import { networkAsset } from '../../common/services/networkAsset';
 
@@ -26,7 +26,7 @@ export const getErgoSigUsdRate = () =>
     distinctUntilChanged(),
     map(
       (latestPrice) =>
-        new Ratio(latestPrice.toString(), sigUsdAsset, networkAsset),
+        new Ratio(latestPrice.toString(), dexyGoldAsset, networkAsset),
     ),
     distinctUntilChanged(),
     publishReplay(1),

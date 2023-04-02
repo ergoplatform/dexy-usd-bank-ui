@@ -14,6 +14,8 @@ import { ergoWasm$ } from './common/services/ergoWasm';
 import { startAppTicks } from './common/streams/appTick';
 import { device } from './common/utils/size';
 import BankInfo from './components/BankInfo/BankInfo';
+import { BankReservesGraph } from './components/BankReservesGraph/BankReservesGraph';
+import { CirculationSupply } from './components/CirculationSupply/CirculationSupply';
 import { Glow } from './components/Grow/Grow';
 import { Header } from './components/Header/Header';
 import { MintForm } from './components/MintForm/MintForm';
@@ -43,6 +45,7 @@ const Content = styled(Flex)`
 
 export const App: FC = () => {
   const [applicationReady] = useObservable(ergoWasm$);
+  const { valBySize } = useDevice();
 
   useEffect(() => {
     if (applicationReady) {
@@ -60,9 +63,18 @@ export const App: FC = () => {
               <Header />
             </Flex.Item>
 
-            <Flex.Item marginTop={20}>
-              <Content>
-                <Col span={12} offset={6}>
+            <Flex.Item
+              marginTop={valBySize(5, 5, 20)}
+              style={{ paddingBottom: '100px' }}
+            >
+              <Content col={valBySize(true, true, false)}>
+                <Col
+                  span={valBySize(24, 24, 12)}
+                  style={{
+                    paddingRight: valBySize('0', '0', '16px'),
+                    paddingBottom: valBySize('16px', '16px', '0'),
+                  }}
+                >
                   <Flex col>
                     <Flex.Item marginBottom={4}>
                       <BankInfo />
@@ -74,6 +86,12 @@ export const App: FC = () => {
                       <TradeInfo />
                     </Flex.Item>
                   </Flex>
+                </Col>
+                <Col span={valBySize(24, 24, 12)}>
+                  <Content gap={4} col>
+                    <BankReservesGraph />
+                    <CirculationSupply />
+                  </Content>
                 </Col>
               </Content>
             </Flex.Item>

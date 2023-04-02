@@ -50,11 +50,6 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
             <Flex.Item flex={1} align="flex-start" display="flex">
               {value ? <AssetTitle level={3} gap={1} asset={value} /> : '...'}
             </Flex.Item>
-            {!readonly && (
-              <Flex.Item marginLeft={2}>
-                <StyledDownOutlined />
-              </Flex.Item>
-            )}
           </Flex>
         </StyledButton>
       )}

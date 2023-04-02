@@ -8,6 +8,7 @@ export interface AssetInfo<T = any> {
   readonly id: string;
   readonly name?: string;
   readonly ticker?: string;
+  readonly icon?: string;
 }
 
 type TokenIconProps = React.DetailedHTMLProps<
@@ -74,7 +75,10 @@ const AssetIcon: React.FC<TokenIconProps> = ({
         <img
           style={{ verticalAlign: 'initial' }}
           alt="Token Icon"
-          src={`${applicationConfig.metadataUrl}/light/${iconName}.svg`}
+          src={
+            asset?.icon ||
+            `${applicationConfig.metadataUrl}/light/${iconName}.svg`
+          }
           onError={handleError}
           width={MAP_SIZE_TO_NUMBER[size || 'medium']}
           height={MAP_SIZE_TO_NUMBER[size || 'medium']}

@@ -1,4 +1,4 @@
-import { sigUsdAsset } from '../assets/sigUsdAsset';
+import { dexyGoldAsset } from '../assets/dexyGoldAsset';
 import { AssetInfo } from './AssetInfo';
 import { Currency } from './Currency';
 
@@ -17,8 +17,8 @@ export class Balance {
   get(asset: AssetInfo): Currency {
     const result = this.mapAssetIdToBalance.get(asset.id);
 
-    if (result?.isAssetEquals(sigUsdAsset)) {
-      return new Currency(result.amount, sigUsdAsset);
+    if (result?.isAssetEquals(dexyGoldAsset)) {
+      return new Currency(result.amount, dexyGoldAsset);
     }
 
     return result || new Currency(0n, asset);

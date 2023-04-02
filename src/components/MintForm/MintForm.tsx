@@ -15,9 +15,9 @@ import React, { FC, ReactNode, useState } from 'react';
 import { skip } from 'rxjs';
 
 import { balance$, useAssetsBalance } from '../../api/balance/balance';
+import { dexyGoldAsset } from '../../common/assets/dexyGoldAsset';
 import { ergAsset } from '../../common/assets/ergAsset';
 import { ergopadAsset } from '../../common/assets/ergopadAsset';
-import { sigUsdAsset } from '../../common/assets/sigUsdAsset';
 import { AssetControlFormItem } from '../../common/components/AssetControl/AssetControl';
 import {
   OperationForm,
@@ -48,7 +48,7 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     baseAmount: undefined,
     baseAsset: ergAsset,
     mintAmount: undefined,
-    mintAsset: sigUsdAsset,
+    mintAsset: dexyGoldAsset,
   });
 
   const [balance] = useAssetsBalance();
@@ -76,20 +76,9 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
   const freeMint = new FreeMint();
 
   const pool = {
-    calculateInputAmount: (value: Currency) => value,
+    calculateInputAmount: (value: Currency) =>
+      new Currency(value.plus(200n).amount, ergAsset),
   };
-  // useSubscription(
-  //   form.controls.baseAmount.valueChanges$.pipe(skip(1)),
-  //   (value) => {
-  //     if (value) {
-  //       form.controls.mintAmount.patchValue(pool.calculateOutputAmount(value), {
-  //         emitEvent: 'silent',
-  //       });
-  //     } else {
-  //       form.controls.mintAmount.patchValue(undefined, { emitEvent: 'silent' });
-  //     }
-  //   },
-  // );
 
   useSubscription(
     form.controls.mintAmount.valueChanges$.pipe(skip(1)),
@@ -129,11 +118,11 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     return !baseAmount?.isPositive() || !mintAmount?.isPositive();
   };
 
-  const getInsufficientTokenNameForFee = ({ baseAmount }: Required<any>) => {
-    console.log(baseAmount);
+  const getInsufficientTokenNameForFee = (props: Required<any>) => {
+    const { baseAmount } = props;
     const totalFeesWithAmount = baseAmount.plus(2n); // TODO: change 2n to totalFee
-    return false;
-    // return totalFeesWithAmount.gt(balance.get(ergAsset)) ? true : false;
+
+    return totalFeesWithAmount.gt(balance.get(ergAsset)) ? true : false;
   };
 
   return (

@@ -38,7 +38,7 @@ export const submitContributionTx = ({
         //     {
         //       proxyNFT: proxyNft,
         //       vestingAmount: Number(vestingAmount.toAmount()),
-        //       sigUSDAmount: sigUsdAmount?.isAssetEquals(sigUsdAsset)
+        //       sigUSDAmount: sigUsdAmount?.isAssetEquals(dexyGoldAsset)
         //         ? Number(sigUsdAmount.toAmount())
         //         : 0,
         //       address: changeAddress,

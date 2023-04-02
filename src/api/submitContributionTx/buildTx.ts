@@ -13,7 +13,7 @@ import { ErgoBoxCandidate } from '@ergolabs/ergo-sdk/build/main/entities/ergoBox
 import { BoxSelection } from '@ergolabs/ergo-sdk/build/main/wallet/entities/boxSelection';
 import { first, map, Observable, zip } from 'rxjs';
 
-import { sigUsdAsset } from '../../common/assets/sigUsdAsset';
+import { dexyGoldAsset } from '../../common/assets/dexyGoldAsset';
 import { Currency } from '../../common/models/Currency';
 import { networkAsset } from '../../common/services/networkAsset';
 import { getErgoSigUsdRate } from '../ergoSigUsdRate/ergoSigUsdRate';
@@ -49,7 +49,7 @@ export const buildTx = (
       const vestingNErgAmount = amount.isAssetEquals(networkAsset)
         ? amount.amount
         : 0n;
-      const vestingSigUsdAmount = amount.isAssetEquals(sigUsdAsset)
+      const vestingSigUsdAmount = amount.isAssetEquals(dexyGoldAsset)
         ? [{ tokenId: amount.asset.id, amount: amount.amount }]
         : [];
 
