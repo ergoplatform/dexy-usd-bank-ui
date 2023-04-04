@@ -52,7 +52,7 @@ export const App: FC = () => {
       startAppTicks();
     }
   }, [applicationReady]);
-  console.log(applicationReady);
+
   return (
     <>
       {applicationReady && (

@@ -64,6 +64,7 @@ export interface AssetControlFormItemProps {
   readonly label?: string;
   readonly loading?: boolean;
   readonly showBalances?: boolean;
+  readonly disabled?: boolean;
   readonly getMaxAmount?: () => Currency | undefined;
 }
 
@@ -75,6 +76,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   readonly,
   loading,
   showBalances,
+  disabled,
   label,
   getMaxAmount,
 }) => {
@@ -140,6 +142,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                   value={value}
                   asset={selectedAsset}
                   onChange={onChange}
+                  disabled={disabled}
                 />
               )}
             </Form.Item>

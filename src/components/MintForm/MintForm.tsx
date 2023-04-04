@@ -143,6 +143,7 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
           <Flex.Item>
             <AssetControlFormItem
               showBalances
+              disabled
               bordered={false}
               amountName="baseAmount"
               tokenName="baseAsset"
