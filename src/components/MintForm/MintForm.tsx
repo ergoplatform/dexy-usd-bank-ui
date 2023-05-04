@@ -1,4 +1,8 @@
-import { RustModule } from '@ergolabs/ergo-sdk';
+import {
+  DefaultTxAssembler,
+  ergoBoxToProxy,
+  RustModule,
+} from '@ergolabs/ergo-sdk';
 import {
   ArrowDownOutlined,
   ArrowLeftOutlined,
@@ -11,10 +15,20 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { FreeMint } from 'dexy-sdk-ts';
+import { ArbitrageMint } from 'dexy-sdk-ts';
+import {
+  ErgoBoxes,
+  UnsignedInput,
+  UnsignedTransaction,
+} from 'ergo-lib-wasm-browser';
 import React, { FC, ReactNode, useState } from 'react';
 import { skip } from 'rxjs';
 
+import { addresses$ } from '../../api/addresses/addresses';
 import { balance$, useAssetsBalance } from '../../api/balance/balance';
+import { networkContext$ } from '../../api/networkContext/networkContext';
+import { utxos$ } from '../../api/utxos/utxos';
+import { selectedWallet$ } from '../../api/wallet/wallet';
 import { dexyGoldAsset } from '../../common/assets/dexyGoldAsset';
 import { ergAsset } from '../../common/assets/ergAsset';
 import { ergopadAsset } from '../../common/assets/ergopadAsset';
@@ -29,6 +43,14 @@ import {
 } from '../../common/hooks/useObservable';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
+import { proverMediator } from '../../common/operations/proverMediator';
+import { useGold101 } from '../../hooks/useGold101';
+import { useGoldBank } from '../../hooks/useGoldBank';
+import { useGoldBuyback } from '../../hooks/useGoldBuyback';
+import { useGoldLp } from '../../hooks/useGoldLp';
+import { useGoldMintArbitrage } from '../../hooks/useGoldMintArbitrage';
+import { useGoldMintFree } from '../../hooks/useGoldMintFree';
+import { useGoldOracle } from '../../hooks/useGoldOracle';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 
 export interface CommitmentFormProps {
@@ -52,27 +74,50 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
   });
 
   const [balance] = useAssetsBalance();
-  const oracleBox = RustModule.SigmaRust.ErgoBox.from_json(
-    JSON.stringify({
-      boxId: 'efc9ee45a7a4040df37347109e79354994d81e2b37b6f3f2329bda7e8934117e',
-      value: 1000000,
-      ergoTree: '10010101d17300',
-      creationHeight: 123414,
-      assets: [
-        {
-          tokenId:
-            '472b4b6250655368566d597133743677397a24432646294a404d635166546a57',
-          amount: 1,
-        },
-      ],
-      additionalRegisters: {
-        R4: '05a09c01',
-      },
-      transactionId:
-        'f9e5ce5aa0d95f5d54a7bc89c46730d9662397067250aa18a0039631c0f5b808',
-      index: 1,
-    }),
-  );
+  const [utxos] = useObservable(utxos$);
+  const [address] = useObservable(addresses$);
+  const [networkContext] = useObservable(networkContext$);
+  const [wallet] = useObservable(selectedWallet$);
+  const [lpBox, lpBoxError, lpBoxLoading, refetchLpBox] = useGoldLp();
+  const [
+    freeMintBox,
+    freeMintBoxError,
+    freeMintBoxLoading,
+    refetchFreeMintBox,
+  ] = useGoldMintFree();
+  const [buybackBox, buybackBoxError, buybackBoxLoading, refetchBuybackBox] =
+    useGoldBuyback();
+  const [bankBox, bankBoxError, bankBoxLoading, refetchBankBox] = useGoldBank();
+  const [oracleBox, oracleBoxError, oracleBoxLoading, refetchOracleBox] =
+    useGoldOracle();
+  const [
+    trackingBox,
+    trackingBoxError,
+    trackingBoxLoading,
+    refetchTrackingBox,
+  ] = useGold101();
+
+  // const oracleBox = RustModule.SigmaRust.ErgoBox.from_json(
+  //   JSON.stringify({
+  //     boxId: 'efc9ee45a7a4040df37347109e79354994d81e2b37b6f3f2329bda7e8934117e',
+  //     value: 1000000,
+  //     ergoTree: '10010101d17300',
+  //     creationHeight: 123414,
+  //     assets: [
+  //       {
+  //         tokenId:
+  //           '472b4b6250655368566d597133743677397a24432646294a404d635166546a57',
+  //         amount: 1,
+  //       },
+  //     ],
+  //     additionalRegisters: {
+  //       R4: '05a09c01',
+  //     },
+  //     transactionId:
+  //       'f9e5ce5aa0d95f5d54a7bc89c46730d9662397067250aa18a0039631c0f5b808',
+  //     index: 1,
+  //   }),
+  // );
   const freeMint = new FreeMint();
 
   const pool = {
@@ -93,6 +138,39 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     },
   );
 
+  if (
+    !lpBox ||
+    !freeMintBox ||
+    !oracleBox ||
+    !bankBox ||
+    !buybackBox ||
+    !trackingBox ||
+    !utxos ||
+    !address ||
+    !networkContext
+  ) {
+    return null;
+  }
+  const data = {
+    txFee: 1000000,
+    arbitrageMintIn: RustModule.SigmaRust.ErgoBox.from_json(
+      JSON.stringify(freeMintBox),
+    ),
+    lpIn: RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(lpBox)),
+    tracking101: RustModule.SigmaRust.ErgoBox.from_json(
+      JSON.stringify(trackingBox),
+    ),
+    oracleBox: RustModule.SigmaRust.ErgoBox.from_json(
+      JSON.stringify(oracleBox),
+    ),
+    bankIn: RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(bankBox)),
+    userIn: RustModule.SigmaRust.ErgoBoxes.from_boxes_json(
+      utxos.map((utxo) => ergoBoxToProxy(utxo)),
+    ),
+    buybackBox: RustModule.SigmaRust.ErgoBox.from_json(
+      JSON.stringify(buybackBox),
+    ),
+  };
   const amountRequiredValidator: OperationValidator<CommitmentFormModel> = (
     form,
   ) => (!form.value.baseAmount?.isPositive() ? 'Enter an amount' : undefined);
@@ -100,10 +178,30 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
   const normalizedValidators = [amountRequiredValidator, ...validators];
 
   const submit = ({
-    value: { baseAmount },
+    value: { baseAmount, mintAmount },
   }: FormGroup<CommitmentFormModel>) => {
-    if (baseAmount) {
-      setSubmitting(true);
+    if (baseAmount && mintAmount) {
+      const freeMint = new FreeMint();
+
+      const freeMintTx: {
+        tx: UnsignedTransaction;
+        inputs: UnsignedInput[];
+        dataInputs: ErgoBoxes;
+      } = freeMint.createFreeMintTransaction(
+        data.txFee,
+        mintAmount.toString(),
+        data.arbitrageMintIn,
+        data.buybackBox,
+        data.bankIn,
+        data.userIn,
+        data.lpIn,
+        RustModule.SigmaRust.Address.from_base58(address[0]),
+        data.oracleBox,
+        networkContext?.height,
+      );
+      console.log(freeMintTx.tx.to_js_eip12());
+      proverMediator.sign(freeMintTx.tx.to_js_eip12());
+      // setSubmitting(true);
     }
   };
 

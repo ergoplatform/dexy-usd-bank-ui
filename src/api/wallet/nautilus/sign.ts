@@ -1,15 +1,8 @@
-import {
-  ErgoTx,
-  ergoTxFromProxy,
-  UnsignedErgoTx,
-  unsignedErgoTxToProxy,
-} from '@ergolabs/ergo-sdk';
+import { ErgoTx, ergoTxFromProxy } from '@ergolabs/ergo-sdk';
 
-export const sign = async (tx: UnsignedErgoTx): Promise<ErgoTx> => {
-  const proxy = unsignedErgoTxToProxy(tx);
-
+export const sign = async (tx: any): Promise<ErgoTx> => {
   const res = await ergoConnector.nautilus
     .getContext()
-    .then((context) => context.sign_tx(proxy));
+    .then((context) => context.sign_tx(tx));
   return ergoTxFromProxy(res);
 };

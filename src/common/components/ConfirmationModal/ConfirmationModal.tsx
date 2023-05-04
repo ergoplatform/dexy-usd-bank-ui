@@ -145,35 +145,6 @@ const TimeoutModelContent = () => (
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center">Try again later</Typography.Body>
     </Flex.Item>
-    <Flex.Item marginBottom={1}>
-      <Typography.Body align="center">
-        Get help in our channels:
-      </Typography.Body>
-    </Flex.Item>
-    <Flex.Item marginBottom={1} justify="center">
-      <Flex>
-        <Flex.Item marginRight={1}>
-          <a
-            style={{ color: 'var(--spectrum-primary-color)' }}
-            href={applicationConfig.support.discord}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <DiscordIcon style={{ cursor: 'pointer' }} />
-          </a>
-        </Flex.Item>
-        <Flex.Item>
-          <a
-            style={{ color: 'var(--spectrum-primary-color)' }}
-            href={applicationConfig.support.telegram}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <TelegramIcon style={{ cursor: 'pointer' }} />
-          </a>
-        </Flex.Item>
-      </Flex>
-    </Flex.Item>
   </Flex>
 );
 
