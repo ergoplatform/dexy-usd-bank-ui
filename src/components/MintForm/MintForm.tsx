@@ -1,8 +1,10 @@
 import {
   DefaultTxAssembler,
   ergoBoxToProxy,
+  JSONBI,
   RustModule,
 } from '@ergolabs/ergo-sdk';
+import { UnsignedInput } from '@ergolabs/ergo-sdk';
 import {
   ArrowDownOutlined,
   ArrowLeftOutlined,
@@ -15,12 +17,7 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { FreeMint } from 'dexy-sdk-ts';
-import { ArbitrageMint } from 'dexy-sdk-ts';
-import {
-  ErgoBoxes,
-  UnsignedInput,
-  UnsignedTransaction,
-} from 'ergo-lib-wasm-browser';
+import { ErgoBoxes, UnsignedTransaction } from 'ergo-lib-wasm-browser';
 import React, { FC, ReactNode, useState } from 'react';
 import { skip } from 'rxjs';
 
@@ -118,8 +115,6 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
   //     index: 1,
   //   }),
   // );
-  const freeMint = new FreeMint();
-
   const pool = {
     calculateInputAmount: (value: Currency) =>
       new Currency(value.plus(200n).amount, ergAsset),
@@ -185,11 +180,11 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
 
       const freeMintTx: {
         tx: UnsignedTransaction;
-        inputs: UnsignedInput[];
+        inputs: ErgoBoxes;
         dataInputs: ErgoBoxes;
       } = freeMint.createFreeMintTransaction(
         data.txFee,
-        mintAmount.toString(),
+        mintAmount.amount,
         data.arbitrageMintIn,
         data.buybackBox,
         data.bankIn,
@@ -199,8 +194,32 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
         data.oracleBox,
         networkContext?.height,
       );
-      console.log(freeMintTx.tx.to_js_eip12());
-      proverMediator.sign(freeMintTx.tx.to_js_eip12());
+      const unsignedTx = JSONBI.parse(freeMintTx.tx.to_json());
+      const freeInBoxes = freeMintTx.inputs;
+      const inputs: UnsignedInput[] = [];
+      for (let i = 0; i < freeInBoxes.len(); i++) {
+        const input = JSONBI.parse(freeInBoxes.get(i).to_json());
+        input.extension = unsignedTx.inputs[i].extension;
+        inputs.push(input);
+      }
+
+      const freeDataBoxes = freeMintTx.dataInputs;
+      const dataInputs: any[] = [];
+      for (let i = 0; i < freeDataBoxes.len(); i++) {
+        const data = JSONBI.parse(freeDataBoxes.get(i).to_json());
+        dataInputs.push(data);
+      }
+      unsignedTx.inputs = inputs;
+      unsignedTx.dataInputs = dataInputs;
+      // yy.inputs =
+      proverMediator
+        .sign(unsignedTx)
+        .then((x) => {
+          console.log('tx ', x);
+        })
+        .catch((e) => {
+          console.log('error ', e);
+        });
       // setSubmitting(true);
     }
   };
