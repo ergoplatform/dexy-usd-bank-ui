@@ -5118,10 +5118,10 @@ detect-port-alt@1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
-dexy-sdk-ts@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.0.5.tgz#5069c7d6afca1de559334abe479e1fe5ef35d7c6"
-  integrity sha512-NTYmwkGI9pRx6zdJ4lNUBi7hghv5g9MtoeD1sCxAVA2ukX8EnLkTObQ5F8GyuHV/Epad2LUH9OQtJlk8RB/Sew==
+dexy-sdk-ts@0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.0.9.tgz#699d4c6d23bd66667ce81aa4109566e35a8239a5"
+  integrity sha512-SX1nbTIezdu1Pfw3RH+XfCCHrgVdP2hjMq8Bb//gTY4cJcQ7eOSPUxPet0UTwFswphQeOgNaeWzwhPf3BGxXQQ==
   dependencies:
     "@ergolabs/ergo-sdk" "^0.5.6"
     ergo-lib-wasm-browser "^0.23.0"

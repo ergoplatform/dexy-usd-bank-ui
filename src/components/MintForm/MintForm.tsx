@@ -1,10 +1,8 @@
 import {
   DefaultTxAssembler,
   ergoBoxToProxy,
-  JSONBI,
   RustModule,
 } from '@ergolabs/ergo-sdk';
-import { UnsignedInput } from '@ergolabs/ergo-sdk';
 import {
   ArrowDownOutlined,
   ArrowLeftOutlined,
@@ -16,8 +14,7 @@ import {
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
-import { FreeMint } from 'dexy-sdk-ts';
-import { ErgoBoxes, UnsignedTransaction } from 'ergo-lib-wasm-browser';
+import { FreeMint, unsignedTxConnectorProxy } from 'dexy-sdk-ts';
 import React, { FC, ReactNode, useState } from 'react';
 import { skip } from 'rxjs';
 
@@ -178,11 +175,7 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     if (baseAmount && mintAmount) {
       const freeMint = new FreeMint();
 
-      const freeMintTx: {
-        tx: UnsignedTransaction;
-        inputs: ErgoBoxes;
-        dataInputs: ErgoBoxes;
-      } = freeMint.createFreeMintTransaction(
+      const freeMintTx = freeMint.createFreeMintTransaction(
         data.txFee,
         mintAmount.amount,
         data.arbitrageMintIn,
@@ -194,24 +187,7 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
         data.oracleBox,
         networkContext?.height,
       );
-      const unsignedTx = JSONBI.parse(freeMintTx.tx.to_json());
-      const freeInBoxes = freeMintTx.inputs;
-      const inputs: UnsignedInput[] = [];
-      for (let i = 0; i < freeInBoxes.len(); i++) {
-        const input = JSONBI.parse(freeInBoxes.get(i).to_json());
-        input.extension = unsignedTx.inputs[i].extension;
-        inputs.push(input);
-      }
-
-      const freeDataBoxes = freeMintTx.dataInputs;
-      const dataInputs: any[] = [];
-      for (let i = 0; i < freeDataBoxes.len(); i++) {
-        const data = JSONBI.parse(freeDataBoxes.get(i).to_json());
-        dataInputs.push(data);
-      }
-      unsignedTx.inputs = inputs;
-      unsignedTx.dataInputs = dataInputs;
-      // yy.inputs =
+      const unsignedTx = unsignedTxConnectorProxy(freeMintTx);
       proverMediator
         .sign(unsignedTx)
         .then((x) => {
