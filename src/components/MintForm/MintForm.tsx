@@ -21,6 +21,7 @@ import { skip } from 'rxjs';
 import { addresses$ } from '../../api/addresses/addresses';
 import { balance$, useAssetsBalance } from '../../api/balance/balance';
 import { networkContext$ } from '../../api/networkContext/networkContext';
+import { submitTx } from '../../api/submitTx/submitTx';
 import { utxos$ } from '../../api/utxos/utxos';
 import { selectedWallet$ } from '../../api/wallet/wallet';
 import { dexyGoldAsset } from '../../common/assets/dexyGoldAsset';
@@ -114,7 +115,7 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
   // );
   const pool = {
     calculateInputAmount: (value: Currency) =>
-      new Currency(value.plus(200n).amount, ergAsset),
+      new Currency(value.amount, ergAsset),
   };
 
   useSubscription(
@@ -174,7 +175,7 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
   }: FormGroup<CommitmentFormModel>) => {
     if (baseAmount && mintAmount) {
       const freeMint = new FreeMint();
-
+      console.log(baseAmount, mintAmount);
       const freeMintTx = freeMint.createFreeMintTransaction(
         data.txFee,
         mintAmount.amount,
@@ -190,8 +191,10 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
       const unsignedTx = unsignedTxConnectorProxy(freeMintTx);
       proverMediator
         .sign(unsignedTx)
-        .then((x) => {
-          console.log('tx ', x);
+        .then((tx) => {
+          console.log('tx ', tx);
+
+          submitTx(tx);
         })
         .catch((e) => {
           console.log('error ', e);

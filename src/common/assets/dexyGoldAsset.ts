@@ -3,7 +3,7 @@ import { AssetInfo } from '../models/AssetInfo';
 
 export const dexyGoldAsset: AssetInfo = {
   id: '124',
-  decimals: 2,
+  decimals: 0,
   name: 'DexyGold',
   ticker: 'DexyGold',
   icon: DexyGold,
