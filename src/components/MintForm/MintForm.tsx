@@ -9,12 +9,14 @@ import {
   Box,
   Flex,
   FormGroup,
+  message,
   notification,
   SwapOutlined,
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
 import { FreeMint, unsignedTxConnectorProxy } from 'dexy-sdk-ts';
+import { ArbitrageMint } from 'dexy-sdk-ts';
 import React, { FC, ReactNode, useState } from 'react';
 import { skip } from 'rxjs';
 
@@ -28,6 +30,10 @@ import { dexyGoldAsset } from '../../common/assets/dexyGoldAsset';
 import { ergAsset } from '../../common/assets/ergAsset';
 import { ergopadAsset } from '../../common/assets/ergopadAsset';
 import { AssetControlFormItem } from '../../common/components/AssetControl/AssetControl';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../common/components/ConfirmationModal/ConfirmationModal';
 import {
   OperationForm,
   OperationValidator,
@@ -46,6 +52,7 @@ import { useGoldLp } from '../../hooks/useGoldLp';
 import { useGoldMintArbitrage } from '../../hooks/useGoldMintArbitrage';
 import { useGoldMintFree } from '../../hooks/useGoldMintFree';
 import { useGoldOracle } from '../../hooks/useGoldOracle';
+import { MintConfirmationModal } from './components/MintConfirmationModal/ClaimConfirmationModal';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 
 export interface CommitmentFormProps {
@@ -80,6 +87,12 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     freeMintBoxLoading,
     refetchFreeMintBox,
   ] = useGoldMintFree();
+  const [
+    goldMintBox,
+    goldMintBoxError,
+    goldMintBoxLoading,
+    refetchGoldMintBox,
+  ] = useGoldMintArbitrage();
   const [buybackBox, buybackBoxError, buybackBoxLoading, refetchBuybackBox] =
     useGoldBuyback();
   const [bankBox, bankBoxError, bankBoxLoading, refetchBankBox] = useGoldBank();
@@ -133,21 +146,22 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
 
   if (
     !lpBox ||
-    !freeMintBox ||
+    !goldMintBox ||
     !oracleBox ||
     !bankBox ||
     !buybackBox ||
     !trackingBox ||
     !utxos ||
     !address ||
-    !networkContext
+    !networkContext ||
+    !freeMintBox
   ) {
     return null;
   }
   const data = {
     txFee: 1000000,
     arbitrageMintIn: RustModule.SigmaRust.ErgoBox.from_json(
-      JSON.stringify(freeMintBox),
+      JSON.stringify(goldMintBox),
     ),
     lpIn: RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(lpBox)),
     tracking101: RustModule.SigmaRust.ErgoBox.from_json(
@@ -163,6 +177,9 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     buybackBox: RustModule.SigmaRust.ErgoBox.from_json(
       JSON.stringify(buybackBox),
     ),
+    freeMintBox: RustModule.SigmaRust.ErgoBox.from_json(
+      JSON.stringify(freeMintBox),
+    ),
   };
   const amountRequiredValidator: OperationValidator<CommitmentFormModel> = (
     form,
@@ -174,31 +191,56 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     value: { baseAmount, mintAmount },
   }: FormGroup<CommitmentFormModel>) => {
     if (baseAmount && mintAmount) {
+      const arbitrageMint = new ArbitrageMint();
       const freeMint = new FreeMint();
-      console.log(baseAmount, mintAmount);
-      const freeMintTx = freeMint.createFreeMintTransaction(
-        data.txFee,
-        mintAmount.amount,
-        data.arbitrageMintIn,
-        data.buybackBox,
-        data.bankIn,
-        data.userIn,
-        data.lpIn,
-        RustModule.SigmaRust.Address.from_base58(address[0]),
-        data.oracleBox,
-        networkContext?.height,
-      );
-      const unsignedTx = unsignedTxConnectorProxy(freeMintTx);
-      proverMediator
-        .sign(unsignedTx)
-        .then((tx) => {
-          console.log('tx ', tx);
 
-          submitTx(tx);
-        })
-        .catch((e) => {
-          console.log('error ', e);
-        });
+      try {
+        const freeMintTx = freeMint.createFreeMintTransaction(
+          data.txFee,
+          35000,
+          data.freeMintBox,
+          data.buybackBox,
+          data.bankIn,
+          data.userIn,
+          data.lpIn,
+          RustModule.SigmaRust.Address.from_base58(address[0]),
+          data.oracleBox,
+          networkContext.height,
+        );
+        const unsignedTx = unsignedTxConnectorProxy(freeMintTx);
+
+        openConfirmationModal(
+          (next) => <MintConfirmationModal onClose={next} tx={unsignedTx} />,
+          Operation.MINTTX,
+          { dexyAsset: mintAmount, amountAsset: baseAmount },
+        );
+      } catch {
+        try {
+          const arbitrageMintTX = arbitrageMint.createArbitrageMintTransaction(
+            data.txFee,
+            mintAmount.amount,
+            data.arbitrageMintIn,
+            data.buybackBox,
+            data.bankIn,
+            data.userIn,
+            data.lpIn,
+            RustModule.SigmaRust.Address.from_base58(address[0]),
+            data.oracleBox,
+            data.tracking101,
+            networkContext.height,
+          );
+
+          const unsignedTx = unsignedTxConnectorProxy(arbitrageMintTX);
+
+          openConfirmationModal(
+            (next) => <MintConfirmationModal onClose={next} tx={unsignedTx} />,
+            Operation.MINTTX,
+            { dexyAsset: mintAmount, amountAsset: baseAmount },
+          );
+        } catch {
+          message.error('Something went wrong');
+        }
+      }
       // setSubmitting(true);
     }
   };

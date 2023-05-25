@@ -18,37 +18,38 @@ const exploreTx = (txId: TxId): unknown =>
 export enum Operation {
   CONTRIBUTION,
   REDEEM,
+  MINTTX,
 }
 
 export interface ModalChainingPayload {
-  readonly spfAsset: Currency;
+  readonly dexyAsset: Currency;
   readonly amountAsset?: Currency;
 }
 
 const getDescriptionByData = (
   operation: Operation,
-  { spfAsset, amountAsset }: ModalChainingPayload,
+  { dexyAsset, amountAsset }: ModalChainingPayload,
 ): ReactNode => {
   switch (operation) {
-    case Operation.CONTRIBUTION:
+    case Operation.MINTTX:
       return amountAsset
-        ? `Purchasing ${spfAsset.toCurrencyString()} tokens for ${amountAsset.toCurrencyString()}`
+        ? `Purchasing ${dexyAsset.toCurrencyString()} tokens for ${amountAsset.toCurrencyString()}`
         : '';
     case Operation.REDEEM: {
-      return <>Claiming {spfAsset.toCurrencyString()}</>;
+      return <>Claiming {dexyAsset.toCurrencyString()}</>;
     }
   }
 };
 
 const getErrorDescriptionByData = (
   operation: Operation,
-  { spfAsset, amountAsset }: ModalChainingPayload,
+  { dexyAsset, amountAsset }: ModalChainingPayload,
 ): ReactNode => {
   switch (operation) {
     case Operation.CONTRIBUTION:
       return (
         <>
-          Can’t purchase {spfAsset.toCurrencyString()} tokens for{' '}
+          Can’t purchase {dexyAsset.toCurrencyString()} tokens for{' '}
           {amountAsset?.toCurrencyString()}. Try again later or{' '}
           <Button
             type="link"
@@ -67,7 +68,7 @@ const getErrorDescriptionByData = (
         </>
       );
     case Operation.REDEEM: {
-      return <>Claiming {spfAsset.toCurrencyString()}</>;
+      return <>Claiming {dexyAsset.toCurrencyString()}</>;
     }
   }
 };
