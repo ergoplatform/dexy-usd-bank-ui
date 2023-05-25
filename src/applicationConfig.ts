@@ -18,7 +18,7 @@ export interface ApplicationConfig {
 
 export const applicationConfig: ApplicationConfig = {
   applicationTick: 5_000,
-  explorerUrl: 'https://explorer.ergoplatform.com',
+  explorerUrl: 'https://testnet.ergoplatform.com',
   ergopayUrl: 'https://ergopay-backend.fly.dev',
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
