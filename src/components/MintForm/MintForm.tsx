@@ -1,4 +1,4 @@
-import { RustModule } from '@ergolabs/ergo-sdk';
+import { ErgoBox, RustModule } from '@ergolabs/ergo-sdk';
 import {
   ArrowLeftOutlined,
   Box,
@@ -10,8 +10,8 @@ import {
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
-import { ArbitrageMint } from 'dexy-sdk-ts';
-import React, { FC, ReactNode, useState } from 'react';
+import { ArbitrageMint, Mint } from 'dexy-sdk-ts';
+import React, { FC, ReactNode, useMemo, useState } from 'react';
 import { skip } from 'rxjs';
 
 import { balance$, useAssetsBalance } from '../../api/balance/balance';
@@ -38,8 +38,8 @@ import { useGoldOracle } from '../../hooks/useGoldOracle';
 import { MintConfirmationModal } from './components/MintConfirmationModal/ClaimConfirmationModal';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 
-export interface CommitmentFormProps {
-  readonly validators?: OperationValidator<CommitmentFormModel>[];
+export interface MintFormProps {
+  mint: Mint;
 }
 
 export interface CommitmentFormModel {
@@ -49,7 +49,7 @@ export interface CommitmentFormModel {
   readonly mintAmount?: Currency;
 }
 
-export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
+export const MintFormContainer: FC<MintFormProps> = ({ mint }) => {
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const [balance] = useAssetsBalance();
@@ -59,26 +59,15 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
     mintAmount: undefined,
     mintAsset: dexyGoldAsset,
   });
-  const [oracle] = useGoldOracle();
-  const [lpBox] = useGoldLp();
-  const arbitrageMint = new ArbitrageMint();
-  const isMintAvailable =
-    oracle && lpBox
-      ? arbitrageMint.lpRate(
-          RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(lpBox)),
-        ) >
-        arbitrageMint.oracleRate(
-          RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(oracle)),
-        )
-      : false;
+
+  const isMintAvailable = mint
+    ? mint.getMintObject().lpRate() > mint.getMintObject().oracleRate()
+    : false;
 
   const pool = {
     calculateInputAmount: (value: Currency) => {
       return new Currency(
-        arbitrageMint.ergNeeded(
-          value.amount.toString(),
-          RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(oracle)),
-        ),
+        mint.getMintObject().ergNeeded(Number(value.amount.toString())),
         ergAsset,
       );
     },
@@ -95,14 +84,13 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
         form.controls.baseAmount.patchValue(undefined, { emitEvent: 'silent' });
       }
     },
-    [oracle],
   );
 
   const amountRequiredValidator: OperationValidator<CommitmentFormModel> = (
     form,
   ) => (!form.value.baseAmount?.isPositive() ? 'Enter an amount' : undefined);
 
-  const normalizedValidators = [amountRequiredValidator, ...validators];
+  const normalizedValidators = [amountRequiredValidator];
 
   const submit = ({
     value: { baseAmount, mintAmount },
@@ -206,4 +194,19 @@ export const MintForm: FC<CommitmentFormProps> = ({ validators = [] }) => {
       </Flex.Item>
     </Box>
   );
+};
+
+export const MintForm = () => {
+  const [oracle] = useGoldOracle();
+  const [lpBox] = useGoldLp();
+
+  if (!oracle || !lpBox) {
+    return null;
+  }
+
+  const mint = new Mint(
+    RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(oracle)),
+    RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(lpBox)),
+  );
+  return <MintFormContainer mint={mint} />;
 };

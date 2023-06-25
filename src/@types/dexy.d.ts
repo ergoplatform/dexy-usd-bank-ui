@@ -1,1 +1,4 @@
-declare module 'dexy-sdk-ts';
+export enum MintType {
+  freeMint = 'freeMint',
+  arbMint = 'arbMint',
+}

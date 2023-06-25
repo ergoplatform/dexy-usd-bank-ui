@@ -1252,34 +1252,18 @@
   resolved "https://registry.npmjs.org/@emotion/unitless/-/unitless-0.7.5.tgz"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@ergolabs/ergo-dex-sdk@^1.9.18":
-  version "1.9.18"
-  resolved "https://registry.npmjs.org/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.18.tgz"
-  integrity sha512-DsFenk0oNVbWcSkJI9W8Cl1kj53dzA9XYUESm9sSEUEjZD5ZpSzQS+iKwsyAokVXz+HYNwY8U6jJVKm9SpOLYg==
+"@ergolabs/ergo-dex-sdk@^1.9.66":
+  version "1.9.66"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.66.tgz#0e3a18dcd53356919cd9832468e02c7666c1e5a7"
+  integrity sha512-aYh6V2XIKK2wSneNJKcF4AV5qGkQK5gZ+caF+e78wuidjJbOoyDAazB5iYT/M+GaIlV6Pny8M/ZakOlrHLvnOQ==
   dependencies:
-    "@ergolabs/ergo-sdk" "^0.5.4"
+    "@ergolabs/ergo-sdk" "^0.5.7"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
     crypto-js "^4.0.0"
     ergo-lib-wasm-browser "0.20.1"
     ergo-lib-wasm-nodejs "0.20.1"
-    esm-wallaby "^3.2.25"
-    json-bigint "^1.0.0"
-    mathjs "^9.4.4"
-    ramda "0.27.1"
-
-"@ergolabs/ergo-sdk@^0.5.4":
-  version "0.5.4"
-  resolved "https://registry.npmjs.org/@ergolabs/ergo-sdk/-/ergo-sdk-0.5.4.tgz"
-  integrity sha512-E3YVGancH49Bv2NuPl1jeFFvfM/Gk/SQG2+47eIA5P/kN8PS7qiLyJILW8ziArkvlSYlTRWqDyhXUiyuBqBp9Q==
-  dependencies:
-    axios "^0.21.1"
-    blakejs "^1.1.0"
-    bs58 "^4.0.1"
-    crypto-js "^4.0.0"
-    ergo-lib-wasm-browser "^0.20.1"
-    ergo-lib-wasm-nodejs "^0.20.1"
     esm-wallaby "^3.2.25"
     json-bigint "^1.0.0"
     mathjs "^9.4.4"
@@ -1301,10 +1285,26 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^2.4.12":
-  version "2.4.12"
-  resolved "https://registry.npmjs.org/@ergolabs/ui-kit/-/ui-kit-2.4.12.tgz"
-  integrity sha512-JtLzGAhKCu1W2wYu/JpyMxEeSD2YF2Hh4BC8yERPu9TWJvYnq4PUXeJlNU69PhliXjflcmbu1sbRe4pxtF60Tg==
+"@ergolabs/ergo-sdk@^0.5.7":
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.5.7.tgz#cb65f3f5d7fb72058ebf1e1188205e01630f7997"
+  integrity sha512-4hK5nKXdmqQOaBdNufdfOYLO41jnPOwAy8dOv1gveQRYYzlm2QXXIGMriyRGAhBD4rUa5afHSL+nTW7VMuGC3Q==
+  dependencies:
+    axios "^0.21.1"
+    blakejs "^1.1.0"
+    bs58 "^4.0.1"
+    crypto-js "^4.0.0"
+    ergo-lib-wasm-browser "^0.20.1"
+    ergo-lib-wasm-nodejs "^0.20.1"
+    esm-wallaby "^3.2.25"
+    json-bigint "^1.0.0"
+    mathjs "^9.4.4"
+    ramda "0.27.1"
+
+"@ergolabs/ui-kit@^2.4.31":
+  version "2.4.31"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.4.31.tgz#9fe86397ba2ba28af67f254e807ecc25252b10d8"
+  integrity sha512-1In6X1OxQ0cJZ2CS0Twt/M7cG6QIvRBlKqAuecua5YWuOH6Y4GdwjCX2VXsA4r5U34K1PKPEBMrMk33mMlPMyQ==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"
@@ -5118,10 +5118,10 @@ detect-port-alt@1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
-dexy-sdk-ts@0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.0.9.tgz#699d4c6d23bd66667ce81aa4109566e35a8239a5"
-  integrity sha512-SX1nbTIezdu1Pfw3RH+XfCCHrgVdP2hjMq8Bb//gTY4cJcQ7eOSPUxPet0UTwFswphQeOgNaeWzwhPf3BGxXQQ==
+dexy-sdk-ts@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.2.0.tgz#9a5ea9db4d2f5db404360385be8d767472a2c1fc"
+  integrity sha512-h0mFJpxZk/nV7z7lHmpq63vD2HyQHvPPk+EQSlWxV8yKUwn22xhDx6VGzBNnB/VBILBZ88kmbtVdPi/LyRTKuw==
   dependencies:
     "@ergolabs/ergo-sdk" "^0.5.6"
     ergo-lib-wasm-browser "^0.23.0"
@@ -5451,6 +5451,11 @@ ergo-lib-wasm-browser@0.20.1, ergo-lib-wasm-browser@^0.20.1:
   version "0.20.1"
   resolved "https://registry.npmjs.org/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.20.1.tgz"
   integrity sha512-g324oXm9kdNphqVuiIzb1lWpawASp7zihcqc8wmr+/xwB8RBSEV+IBwAu4RYMRHNwlwffsPOtKvk+lRpxUFVxQ==
+
+ergo-lib-wasm-browser@^0.21.0:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.21.1.tgz#88e2af62a0da22d855724741f81ebd1f9586280b"
+  integrity sha512-fslw5xkbIHkqvlKbFH1+FHAl6Pc62oe4IxYp1E6nObULjf/ICM2FI5JG0rWdziZn9WHHrkyU5xXgwNlGBcdpMQ==
 
 ergo-lib-wasm-browser@^0.23.0:
   version "0.23.0"

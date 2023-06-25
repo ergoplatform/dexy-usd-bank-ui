@@ -12,9 +12,12 @@ import {
   Modal,
   Typography,
 } from '@ergolabs/ui-kit';
-import { unsignedTxConnectorProxy } from 'dexy-sdk-ts';
-import { ArbitrageMint } from 'dexy-sdk-ts';
-import { FreeMint } from 'dexy-sdk-ts';
+import {
+  ArbitrageMint,
+  FreeMint,
+  Mint,
+  unsignedTxConnectorProxy,
+} from 'dexy-sdk-ts';
 import React, { FC } from 'react';
 import { Observable } from 'rxjs';
 
@@ -28,6 +31,7 @@ import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
 import { submitMintTx } from '../../../../common/operations/submitMintTx';
 import { TxId } from '../../../../common/types';
+import { MintType } from '../../../../common/utils/types';
 import { useGold101 } from '../../../../hooks/useGold101';
 import { useGoldBank } from '../../../../hooks/useGoldBank';
 import { useGoldBuyback } from '../../../../hooks/useGoldBuyback';
@@ -91,9 +95,6 @@ export const MintConfirmationModal: FC<MintConfirmationModalProps> = ({
       return;
     }
 
-    const arbitrageMint = new ArbitrageMint();
-    const freeMint = new FreeMint();
-
     const txData = {
       txFee: 1000000,
       arbitrageMintIn: RustModule.SigmaRust.ErgoBox.from_json(
@@ -118,44 +119,40 @@ export const MintConfirmationModal: FC<MintConfirmationModalProps> = ({
       ),
     };
 
-    try {
+    const mint = new Mint(txData.oracleBox, txData.lpIn);
+
+    if (mint.mintType() === MintType.arbMint) {
+      const arbMint = mint.getMintObject() as ArbitrageMint;
+      const arbitrageMintTX = arbMint.createArbitrageMintTransaction(
+        txData.txFee,
+        Number(mintAmount.toAmount()),
+        txData.arbitrageMintIn,
+        txData.buybackBox,
+        txData.bankIn,
+        txData.userIn,
+        RustModule.SigmaRust.Address.from_base58(address[0]),
+        txData.tracking101,
+        networkContext.height,
+      );
+
+      const tx = unsignedTxConnectorProxy(arbitrageMintTX);
+
+      onClose(submitMintTx(tx));
+    } else {
+      const freeMint = mint.getMintObject() as FreeMint;
       const freeMintTx = freeMint.createFreeMintTransaction(
         txData.txFee,
-        mintAmount.amount,
+        Number(mintAmount.toAmount()),
         txData.freeMintBox,
         txData.buybackBox,
         txData.bankIn,
         txData.userIn,
-        txData.lpIn,
         RustModule.SigmaRust.Address.from_base58(address[0]),
-        txData.oracleBox,
         networkContext.height,
       );
       const unsignedTx = unsignedTxConnectorProxy(freeMintTx);
 
       onClose(submitMintTx(unsignedTx));
-    } catch {
-      try {
-        const arbitrageMintTX = arbitrageMint.createArbitrageMintTransaction(
-          txData.txFee,
-          mintAmount.amount,
-          txData.arbitrageMintIn,
-          txData.buybackBox,
-          txData.bankIn,
-          txData.userIn,
-          txData.lpIn,
-          RustModule.SigmaRust.Address.from_base58(address[0]),
-          txData.oracleBox,
-          txData.tracking101,
-          networkContext.height,
-        );
-
-        const tx = unsignedTxConnectorProxy(arbitrageMintTX);
-
-        onClose(submitMintTx(tx));
-      } catch {
-        message.error('Something went wrong');
-      }
     }
   };
 
