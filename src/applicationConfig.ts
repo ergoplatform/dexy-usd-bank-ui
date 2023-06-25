@@ -14,6 +14,7 @@ export interface ApplicationConfig {
   readonly explorerUrl: string;
   readonly spectrumUrl: string;
   readonly dexybankUrl: string;
+  readonly dexyOraclePool: string;
 }
 
 export const applicationConfig: ApplicationConfig = {
@@ -30,4 +31,6 @@ export const applicationConfig: ApplicationConfig = {
   updateTime: 1_000,
   idoStart: DateTime.utc(2023, 1, 16, 20, 0),
   dexybankUrl: 'https://api-testnet.dexygold.com/api',
+  dexyOraclePool:
+    'https://testnet.ergoplatform.com/en/oracle-pool-state/dexyerg',
 };
