@@ -33,6 +33,7 @@ import {
 } from '../../common/hooks/useObservable';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
+import { MintType } from '../../common/utils/types';
 import { useGoldLp } from '../../hooks/useGoldLp';
 import { useGoldOracle } from '../../hooks/useGoldOracle';
 import { MintConfirmationModal } from './components/MintConfirmationModal/ClaimConfirmationModal';
@@ -148,7 +149,18 @@ export const MintFormContainer: FC<MintFormProps> = ({ mint }) => {
       >
         <Flex col>
           <Flex.Item marginBottom={6} justify="space-between">
-            <Typography.Title level={4}>Mint DexyGold</Typography.Title>
+            <Typography.Title level={4}>
+              Mint DexyGold{' '}
+              {mint.mintType() === MintType.arbMint ? (
+                <Typography.Body style={{ color: 'rgb(138, 138, 138)' }}>
+                  (by Arbitrage Mint)
+                </Typography.Body>
+              ) : (
+                <Typography.Body style={{ color: 'rgb(138, 138, 138)' }}>
+                  (by Free Mint)
+                </Typography.Body>
+              )}
+            </Typography.Title>
             <div>
               <Tooltip title="Oracle price is less than the Liquidity pool price.">
                 <Tag
