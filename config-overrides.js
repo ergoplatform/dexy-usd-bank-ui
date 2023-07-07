@@ -10,9 +10,18 @@ module.exports = function override(config) {
   // Make file-loader ignore WASM files
   const wasmExtensionRegExp = /\.wasm$/;
   config.resolve.extensions.push('.wasm');
+  config.experiments = {
+    asyncWebAssembly: false,
+    lazyCompilation: true,
+    syncWebAssembly: true,
+    topLevelAwait: true,
+  };
+  config.resolve.fallback = {
+    buffer: require.resolve('buffer/'),
+  };
   config.module.rules.forEach((rule) => {
     (rule.oneOf || []).forEach((oneOf) => {
-      if (oneOf.loader && oneOf.loader.indexOf('file-loader') >= 0) {
+      if (oneOf.type === 'asset/resource') {
         oneOf.exclude.push(wasmExtensionRegExp);
       }
     });
@@ -27,11 +36,8 @@ module.exports = function override(config) {
 
   config.module.rules.push({
     test: /\.m?js$/,
-    use: {
-      loader: 'babel-loader',
-      options: {
-        presets: [['@babel/preset-env', { targets: 'defaults' }]],
-      },
+    resolve: {
+      fullySpecified: false,
     },
   });
 
@@ -39,6 +45,17 @@ module.exports = function override(config) {
   config = addLessLoader({
     lessLoaderOptions: { lessOptions: { javascriptEnabled: true } },
   })(config);
+
+  config.ignoreWarnings = [
+    function ignoreSourcemapsloaderWarnings(warning) {
+      return (
+        warning.module &&
+        warning.module.resource.includes('node_modules') &&
+        warning.details &&
+        warning.details.includes('source-map-loader')
+      );
+    },
+  ];
 
   return config;
 };
