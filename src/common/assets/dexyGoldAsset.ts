@@ -2,7 +2,7 @@ import DexyGold from '../../assets/DexyGold.svg';
 import { AssetInfo } from '../models/AssetInfo';
 
 export const dexyGoldAsset: AssetInfo = {
-  id: 'db6e90dbb38e9c1c346021d05520de5aa01d3c25a38afd7431d83a88e3228ab5',
+  id: 'f4b0a10d38ed5d40bf1f09485ea4d6d9e9e49b9cab2de74bd8697e10391d7f02',
   decimals: 0,
   name: 'DexyGold',
   ticker: 'DexyGold',
