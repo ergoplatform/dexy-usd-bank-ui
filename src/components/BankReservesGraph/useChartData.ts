@@ -1,13 +1,23 @@
 import { useCallback } from 'react';
 
-import { applicationConfig } from '../applicationConfig';
-import { useAxios } from '../utils/axios';
+import { applicationConfig } from '../../applicationConfig';
+import { useAxios } from '../../utils/axios';
 
-export const useGoldMintFree = () => {
+export const useChartData = ({
+  start,
+  end,
+}: {
+  start: number;
+  end: number;
+}) => {
   const [requestState, runRequest] = useAxios<any>(
     {
-      url: `${applicationConfig.dexybankUrl}/gold/mint/free?unconfirmed=1`,
+      url: `${applicationConfig.dexybankUrl}/gold/bankReserve`,
       method: 'GET',
+      params: {
+        start,
+        end,
+      },
     },
     { useCache: false },
   );

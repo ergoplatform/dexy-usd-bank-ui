@@ -61,9 +61,8 @@ export const MintFormContainer: FC<MintFormProps> = ({ mint }) => {
     mintAsset: dexyGoldAsset,
   });
 
-  const isMintAvailable = mint
-    ? mint.getMintObject().lpRate() > mint.getMintObject().oracleRate()
-    : false;
+  const isMintAvailable =
+    mint && mint.getMintObject() ? mint.lpRate() > mint.oracleRate() : false;
 
   const pool = {
     calculateInputAmount: (value: Currency) => {

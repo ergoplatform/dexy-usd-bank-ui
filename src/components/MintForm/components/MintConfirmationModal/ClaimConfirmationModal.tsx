@@ -100,6 +100,9 @@ export const MintConfirmationModal: FC<MintConfirmationModalProps> = ({
       arbitrageMintIn: RustModule.SigmaRust.ErgoBox.from_json(
         JSON.stringify(goldMintBox),
       ),
+      freeMintBox: RustModule.SigmaRust.ErgoBox.from_json(
+        JSON.stringify(freeMintBox),
+      ),
       lpIn: RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(lpBox)),
       tracking101: RustModule.SigmaRust.ErgoBox.from_json(
         JSON.stringify(trackingBox),
@@ -113,9 +116,6 @@ export const MintConfirmationModal: FC<MintConfirmationModalProps> = ({
       ),
       buybackBox: RustModule.SigmaRust.ErgoBox.from_json(
         JSON.stringify(buybackBox),
-      ),
-      freeMintBox: RustModule.SigmaRust.ErgoBox.from_json(
-        JSON.stringify(freeMintBox),
       ),
     };
 

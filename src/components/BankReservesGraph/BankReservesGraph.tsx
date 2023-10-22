@@ -30,11 +30,10 @@ import styled from 'styled-components';
 import { ergAsset } from '../../common/assets/ergAsset';
 import { DateTimeView } from '../../common/components/DateTimeView/DateTimeView';
 import { Truncate } from '../../common/components/Truncate/Truncate';
-import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { PoolChartData } from '../../common/models/PoolChartData';
-import { bankReservesGraph } from '../../mockData/chart';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
+import { useChartData } from './useChartData';
 import { Period, usePeriodSettings } from './usePeriodSettings';
 import { useTicks } from './useTicks';
 
@@ -80,7 +79,17 @@ export const BankReservesGraph: React.FC = () => {
     usePeriodSettings(defaultActivePeriod);
 
   const ticks = useTicks(tick, durationOffset, [defaultActivePeriod]);
-  const rawData = bankReservesGraph.map((value) => new PoolChartData(value));
+
+  const params = useMemo(
+    () => ({
+      start: DateTime.now().minus(durationOffset).valueOf(),
+      end: DateTime.now().valueOf(),
+    }),
+    [durationOffset],
+  );
+  const [getChartData] = useChartData(params);
+  const rawData = getChartData?.map((value) => new PoolChartData(value)) ?? [];
+
   const data = useAggregatedByDateData(rawData, ticks);
 
   // recharts couldn't animate when dataKey is changed

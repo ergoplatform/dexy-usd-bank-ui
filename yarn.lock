@@ -5119,11 +5119,6 @@ ergo-lib-wasm-browser@0.20.1, ergo-lib-wasm-browser@^0.20.1:
   resolved "https://registry.npmjs.org/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.20.1.tgz"
   integrity sha512-g324oXm9kdNphqVuiIzb1lWpawASp7zihcqc8wmr+/xwB8RBSEV+IBwAu4RYMRHNwlwffsPOtKvk+lRpxUFVxQ==
 
-ergo-lib-wasm-browser@^0.21.0:
-  version "0.21.1"
-  resolved "https://registry.npmjs.org/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.21.1.tgz"
-  integrity sha512-fslw5xkbIHkqvlKbFH1+FHAl6Pc62oe4IxYp1E6nObULjf/ICM2FI5JG0rWdziZn9WHHrkyU5xXgwNlGBcdpMQ==
-
 ergo-lib-wasm-browser@^0.23.0:
   version "0.23.0"
   resolved "https://registry.npmjs.org/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.23.0.tgz"

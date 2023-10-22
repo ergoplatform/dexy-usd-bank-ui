@@ -42,11 +42,7 @@ const BankInfo = () => {
           <Typography.Body
             style={{ fontSize: valBySize('12px', '14px', '16px') }}
           >
-            1 DexyGOLD ={' '}
-            {new Currency(
-              mint.getMintObject().oracleRate(),
-              ergAsset,
-            ).toString()}{' '}
+            1 DexyGOLD = {new Currency(mint.oracleRate(), ergAsset).toString()}{' '}
             ERG
           </Typography.Body>
         </div>
@@ -66,9 +62,7 @@ const BankInfo = () => {
           <Typography.Body
             style={{ fontSize: valBySize('12px', '14px', '16px') }}
           >
-            1 DexyGOLD ={' '}
-            {new Currency(mint.getMintObject().lpRate(), ergAsset).toString()}{' '}
-            ERG
+            1 DexyGOLD = {new Currency(mint.lpRate(), ergAsset).toString()} ERG
           </Typography.Body>
         </div>
       </Flex.Item>
