@@ -3,6 +3,7 @@ import {
   ArrowLeftOutlined,
   Box,
   CheckCircleOutlined,
+  CloseCircleOutlined,
   Flex,
   FormGroup,
   Tag,
@@ -150,26 +151,38 @@ export const MintFormContainer: FC<MintFormProps> = ({ mint }) => {
           <Flex.Item marginBottom={6} justify="space-between">
             <Typography.Title level={4}>
               Mint DexyGold{' '}
-              {mint.mintType() === MintType.arbMint ? (
-                <Typography.Body style={{ color: 'rgb(138, 138, 138)' }}>
-                  (by Arbitrage Mint)
-                </Typography.Body>
-              ) : (
-                <Typography.Body style={{ color: 'rgb(138, 138, 138)' }}>
-                  (by Free Mint)
-                </Typography.Body>
-              )}
+              {mint.mintType() ? (
+                mint.mintType() === MintType.arbMint ? (
+                  <Typography.Body style={{ color: 'rgb(138, 138, 138)' }}>
+                    (by Arbitrage Mint)
+                  </Typography.Body>
+                ) : (
+                  <Typography.Body style={{ color: 'rgb(138, 138, 138)' }}>
+                    (by Free Mint)
+                  </Typography.Body>
+                )
+              ) : null}
             </Typography.Title>
             <div>
-              <Tooltip title="Oracle price is less than the Liquidity pool price.">
+              {isMintAvailable ? (
+                <Tooltip title="Oracle price is less than the Liquidity pool price.">
+                  <Tag
+                    icon={<CheckCircleOutlined />}
+                    color={'success'}
+                    style={{ height: '24px' }}
+                  >
+                    Available
+                  </Tag>
+                </Tooltip>
+              ) : (
                 <Tag
-                  icon={<CheckCircleOutlined />}
-                  color={'success'}
+                  icon={<CloseCircleOutlined />}
+                  color={'error'}
                   style={{ height: '24px' }}
                 >
-                  Available
+                  Not available
                 </Tag>
-              </Tooltip>
+              )}
             </div>
           </Flex.Item>
           <Flex.Item>

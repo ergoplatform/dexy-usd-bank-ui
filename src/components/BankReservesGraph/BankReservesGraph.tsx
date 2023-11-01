@@ -30,8 +30,8 @@ import styled from 'styled-components';
 import { ergAsset } from '../../common/assets/ergAsset';
 import { DateTimeView } from '../../common/components/DateTimeView/DateTimeView';
 import { Truncate } from '../../common/components/Truncate/Truncate';
+import { BankReservesData } from '../../common/models/BankReservesData';
 import { Currency } from '../../common/models/Currency';
-import { PoolChartData } from '../../common/models/PoolChartData';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
 import { useChartData } from './useChartData';
 import { Period, usePeriodSettings } from './usePeriodSettings';
@@ -88,16 +88,17 @@ export const BankReservesGraph: React.FC = () => {
     [durationOffset],
   );
   const [getChartData] = useChartData(params);
-  const rawData = getChartData?.map((value) => new PoolChartData(value)) ?? [];
+  const rawData =
+    getChartData?.map((value) => new BankReservesData(value)) ?? [];
 
   const data = useAggregatedByDateData(rawData, ticks);
 
   // recharts couldn't animate when dataKey is changed
   const chartData = useMemo(() => [...data], [data]);
 
-  const [activeData, setActiveData] = useState<PoolChartData | null>();
+  const [activeData, setActiveData] = useState<BankReservesData | null>();
 
-  const bankReserveValue = new Currency(39342343n, ergAsset);
+  const bankReserveValue = new Currency(0n, ergAsset);
 
   const isEmpty = data.length === 0;
 

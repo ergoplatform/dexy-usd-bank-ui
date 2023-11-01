@@ -67,7 +67,7 @@ export function OperationForm<T>({
         loading: false,
         caption: CHECK_INTERNET_CONNECTION_CAPTION,
       });
-    } else if (isMintAvailable) {
+    } else if (!isMintAvailable) {
       setButtonProps({
         disabled: true,
         loading: false,

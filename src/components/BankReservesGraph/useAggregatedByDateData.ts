@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 
-import { PoolChartData } from '../../common/models/PoolChartData';
+import { PoolChartData } from '../../common/models/CirculationSupplyData';
 
 export const useAggregatedByDateData = (
   rawData: PoolChartData[],
@@ -19,9 +19,9 @@ export const useAggregatedByDateData = (
         while (rawData[j + 1]?.ts < lts.valueOf()) {
           j++;
         }
-        return rawData[j === -1 ? 0 : j].clone({ timestamp: lts.valueOf() });
+        return rawData[j === -1 ? 0 : j].clone({ date: lts.valueOf() });
       });
-    res.push(rawData[rawData.length - 1].clone({ timestamp: Date.now() }));
+    res.push(rawData[rawData.length - 1].clone({ date: Date.now() }));
     return res;
   }, [rawData]);
 };

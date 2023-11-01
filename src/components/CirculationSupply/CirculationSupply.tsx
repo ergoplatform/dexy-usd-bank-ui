@@ -30,8 +30,8 @@ import { ergAsset } from '../../common/assets/ergAsset';
 import { DateTimeView } from '../../common/components/DateTimeView/DateTimeView';
 import { Truncate } from '../../common/components/Truncate/Truncate';
 import { useObservable } from '../../common/hooks/useObservable';
+import { CirculationSupplyData } from '../../common/models/CirculationSupplyData';
 import { Currency } from '../../common/models/Currency';
-import { PoolChartData } from '../../common/models/PoolChartData';
 import { bankReservesGraph } from '../../mockData/chart';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
 import { useChartData } from './useChartData';
@@ -88,16 +88,17 @@ export const CirculationSupply: React.FC = () => {
     [durationOffset],
   );
   const [getChartData] = useChartData(params);
-  const rawData = getChartData?.map((value) => new PoolChartData(value)) ?? [];
+  const rawData =
+    getChartData?.map((value) => new CirculationSupplyData(value)) ?? [];
 
   const data = useAggregatedByDateData(rawData, ticks);
 
   // recharts couldn't animate when dataKey is changed
   const chartData = useMemo(() => [...data], [data]);
 
-  const [activeData, setActiveData] = useState<PoolChartData | null>();
+  const [activeData, setActiveData] = useState<CirculationSupplyData | null>();
 
-  const bankReserveValue = new Currency(393423n, dexyGoldAsset);
+  const bankReserveValue = new Currency(0n, dexyGoldAsset);
 
   const isEmpty = data.length === 0;
 
@@ -106,6 +107,7 @@ export const CirculationSupply: React.FC = () => {
       if (typeof ts === 'string') {
         return ts;
       }
+
       return DateTime.fromMillis(ts).toLocaleString(timeFormat);
     },
     [defaultActivePeriod],
