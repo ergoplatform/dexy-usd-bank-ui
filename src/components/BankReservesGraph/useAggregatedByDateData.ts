@@ -1,12 +1,12 @@
 import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 
-import { PoolChartData } from '../../common/models/CirculationSupplyData';
+import { BankReservesData } from '../../common/models/BankReservesData';
 
 export const useAggregatedByDateData = (
-  rawData: PoolChartData[],
+  rawData: BankReservesData[],
   ticks: DateTime[],
-): PoolChartData[] => {
+): BankReservesData[] => {
   return useMemo(() => {
     if (rawData.length < 1) {
       return [];
