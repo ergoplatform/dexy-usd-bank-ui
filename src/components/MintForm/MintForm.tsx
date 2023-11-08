@@ -63,7 +63,7 @@ export const MintFormContainer: FC<MintFormProps> = ({ mint }) => {
   });
 
   const isMintAvailable =
-    mint && mint.getMintObject() ? mint.lpRate() > mint.oracleRate() : false;
+    mint && mint.getMintObject() ? mint.lpRate() < mint.oracleRate() : false;
 
   const pool = {
     calculateInputAmount: (value: Currency) => {
@@ -165,23 +165,23 @@ export const MintFormContainer: FC<MintFormProps> = ({ mint }) => {
             </Typography.Title>
             <div>
               {isMintAvailable ? (
-                <Tooltip title="Oracle price is less than the Liquidity pool price.">
-                  <Tag
-                    icon={<CheckCircleOutlined />}
-                    color={'success'}
-                    style={{ height: '24px' }}
-                  >
-                    Available
-                  </Tag>
-                </Tooltip>
-              ) : (
                 <Tag
-                  icon={<CloseCircleOutlined />}
-                  color={'error'}
+                  icon={<CheckCircleOutlined />}
+                  color={'success'}
                   style={{ height: '24px' }}
                 >
-                  Not available
+                  Available
                 </Tag>
+              ) : (
+                <Tooltip title="Oracle price is less than the Liquidity pool price.">
+                  <Tag
+                    icon={<CloseCircleOutlined />}
+                    color={'error'}
+                    style={{ height: '24px' }}
+                  >
+                    Not available
+                  </Tag>
+                </Tooltip>
               )}
             </div>
           </Flex.Item>
@@ -232,5 +232,6 @@ export const MintForm = () => {
     RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(oracle)),
     RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(lpBox)),
   );
+
   return <MintFormContainer mint={mint} />;
 };

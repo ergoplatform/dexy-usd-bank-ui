@@ -1364,10 +1364,10 @@
   resolved "https://registry.npmjs.org/@emotion/unitless/-/unitless-0.7.5.tgz"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@ergolabs/ergo-dex-sdk@^1.9.66":
-  version "1.9.66"
-  resolved "https://registry.npmjs.org/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.66.tgz"
-  integrity sha512-aYh6V2XIKK2wSneNJKcF4AV5qGkQK5gZ+caF+e78wuidjJbOoyDAazB5iYT/M+GaIlV6Pny8M/ZakOlrHLvnOQ==
+"@ergolabs/ergo-dex-sdk@^1.9.67-beta.2":
+  version "1.9.67-beta.2"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.67-beta.2.tgz#2383c7f02dd32f6421ab6caf8c67fc9adc029455"
+  integrity sha512-ZxC4wF6sYLxgLyYbEkDGOb0yRqTVmo/NU2yqcgHxsFi1JnMHtXRhbGYf9MNDMu/GJr2A5FB3L+vNOG6P1c2YZw==
   dependencies:
     "@ergolabs/ergo-sdk" "^0.5.7"
     axios "^0.21.1"
@@ -4865,10 +4865,10 @@ detect-port-alt@^1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
-dexy-sdk-ts@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/dexy-sdk-ts/-/dexy-sdk-ts-0.2.0.tgz"
-  integrity sha512-h0mFJpxZk/nV7z7lHmpq63vD2HyQHvPPk+EQSlWxV8yKUwn22xhDx6VGzBNnB/VBILBZ88kmbtVdPi/LyRTKuw==
+dexy-sdk-ts@0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.2.2.tgz#56e3f54bb75f6ad8289c4bed83569c5fc430f00a"
+  integrity sha512-deGBZc8sIeon2pznistmYnjL4HXh5oH/XDLcJFWZHYGkYTbb18oecWMDJYhdP40yG1BFuOQmabFkn82zgf6Ycg==
   dependencies:
     "@ergolabs/ergo-sdk" "^0.5.6"
     ergo-lib-wasm-browser "^0.23.0"
