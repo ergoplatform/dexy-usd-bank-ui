@@ -12,20 +12,17 @@ import {
 
 import { Currency } from '../../common/models/Currency';
 import { networkAsset } from '../../common/services/networkAsset';
-import { addresses$ } from '../addresses/addresses';
+import { getAddresses } from '../addresses/addresses';
 import { networkContext$ } from '../networkContext/networkContext';
 import { explorer } from '../wallet/common/explorer';
-import { selectedWallet$ } from '../wallet/wallet';
 
-export const networkAssetBalance$ = selectedWallet$.pipe(
-  filter(Boolean),
-  switchMapTo(networkContext$),
-  switchMap(() => addresses$.pipe(first())),
-  switchMap((addresses) =>
-    combineLatest(
+export const networkAssetBalance$ = networkContext$.pipe(
+  switchMap(() => getAddresses()),
+  switchMap((addresses) => {
+    return combineLatest(
       addresses.map((address) => from(explorer.getBalanceByAddress(address))),
-    ),
-  ),
+    );
+  }),
   map((balances) =>
     balances.reduce((acc, balance) => acc + (balance?.nErgs || 0n), 0n),
   ),

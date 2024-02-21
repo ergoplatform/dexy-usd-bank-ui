@@ -1,7 +1,5 @@
 import { DateTime } from 'luxon';
 
-import { types } from './common/utils/types';
-
 export interface ApplicationConfig {
   readonly updateTime: number;
   readonly idoStart: DateTime;
@@ -18,7 +16,7 @@ export interface ApplicationConfig {
 }
 
 export const applicationConfig: ApplicationConfig = {
-  applicationTick: 5_000,
+  applicationTick: 5000,
   explorerUrl: 'https://testnet.ergoplatform.com',
   ergopayUrl: 'https://ergopay-backend.fly.dev',
   defaultTokenListUrl:
@@ -28,9 +26,9 @@ export const applicationConfig: ApplicationConfig = {
   metadataUrl:
     'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
   ergopadUrl: 'https://api.ergopad.io',
-  updateTime: 1_000,
+  updateTime: 1000,
   idoStart: DateTime.utc(2023, 1, 16, 20, 0),
   dexybankUrl: 'https://api-testnet.dexygold.com/api',
   dexyOraclePool:
-    'https://testnet.ergoplatform.com/en/oracle-pool-state/dexyerg',
+    'https://explorer.ergoplatform.com/en/oracle-pool-state/xauerg',
 };

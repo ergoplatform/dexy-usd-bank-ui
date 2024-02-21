@@ -21,7 +21,7 @@ import {
 import React, { FC } from 'react';
 import { Observable } from 'rxjs';
 
-import { addresses$ } from '../../../../api/addresses/addresses';
+import { getAddresses } from '../../../../api/addresses/addresses';
 import { useAssetsBalance } from '../../../../api/balance/balance';
 import { networkContext$ } from '../../../../api/networkContext/networkContext';
 import { utxos$ } from '../../../../api/utxos/utxos';
@@ -52,7 +52,7 @@ export const MintConfirmationModal: FC<MintConfirmationModalProps> = ({
   baseAmount,
 }) => {
   const [utxos] = useObservable(utxos$);
-  const [address] = useObservable(addresses$);
+  const [address] = useObservable(getAddresses());
   const [networkContext] = useObservable(networkContext$);
   const [lpBox, lpBoxError, lpBoxLoading, refetchLpBox] = useGoldLp();
   const [

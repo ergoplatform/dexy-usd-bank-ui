@@ -3,14 +3,13 @@ import { map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { Wallet, WalletState } from './common/Wallet';
 import { makeWalletManager } from './common/WalletManager';
-import { ErgopayWallet } from './ergopay/ergopay';
 import { Nautilus } from './nautilus/nautilus';
 
 const ERGO_SELECTED_WALLET_TOKEN = 'ergo-selected-wallet';
 
 export const ergoWalletManager = makeWalletManager<Wallet>(
   ERGO_SELECTED_WALLET_TOKEN,
-  [Nautilus, ErgopayWallet],
+  [Nautilus],
   (w: Wallet) => w.connectWallet(),
 );
 

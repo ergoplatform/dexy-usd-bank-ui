@@ -31,7 +31,6 @@ const StyledMenu = styled(Menu)`
 
 export const RightPanel: FC = () => {
   const [balance, balanceLoading] = useObservable(networkAssetBalance$);
-
   const overlay = (
     <StyledMenu style={{ padding: '4px', width: '200px' }}>
       <Menu.Item key="disconnect" onClick={disconnectWallet}>

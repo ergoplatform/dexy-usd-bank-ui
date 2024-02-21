@@ -24,7 +24,7 @@ const TradeInfo = () => {
             style={{ fontSize: valBySize('12px', '14px', '16px') }}
           >
             <Flex align="center" gap={0.5}>
-              Provide Liquiduty
+              Provide Liquidity
               <OpenIcon />
             </Flex>
           </Typography.Link>
