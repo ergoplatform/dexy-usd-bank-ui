@@ -6,7 +6,7 @@ import { useAxios } from '../utils/axios';
 export const useGoldLp = () => {
   const [requestState, runRequest] = useAxios<any>(
     {
-      url: `${applicationConfig.dexybankUrl}/gold/lp?unconfirmed=1`,
+      url: `${applicationConfig.dexybankUrl}/gold/lp`,
       method: 'GET',
     },
     { useCache: false },

@@ -6,7 +6,7 @@ import { useAxios } from '../utils/axios';
 export const useGold101 = () => {
   const [requestState, runRequest] = useAxios<any>(
     {
-      url: `${applicationConfig.dexybankUrl}/gold/tracking101Box?unconfirmed=1`,
+      url: `${applicationConfig.dexybankUrl}/gold/tracking101Box`,
       method: 'GET',
     },
     { useCache: false },

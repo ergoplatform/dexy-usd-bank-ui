@@ -6,7 +6,7 @@ import { useAxios } from '../utils/axios';
 export const useGoldOracle = () => {
   const [requestState, runRequest] = useAxios<any>(
     {
-      url: `${applicationConfig.dexybankUrl}/gold/oracle?unconfirmed=1`,
+      url: `${applicationConfig.dexybankUrl}/gold/oracle`,
       method: 'GET',
     },
     { useCache: false },
