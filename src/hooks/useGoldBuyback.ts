@@ -6,7 +6,7 @@ import { useAxios } from '../utils/axios';
 export const useGoldBuyback = () => {
   const [requestState, runRequest] = useAxios<any>(
     {
-      url: `${applicationConfig.dexybankUrl}/gold/buyback?unconfirmed=1`,
+      url: `${applicationConfig.dexybankUrl}/gold/buyback?ui=1`,
       method: 'GET',
     },
     { useCache: false },

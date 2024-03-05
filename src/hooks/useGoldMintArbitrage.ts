@@ -6,7 +6,7 @@ import { useAxios } from '../utils/axios';
 export const useGoldMintArbitrage = () => {
   const [requestState, runRequest] = useAxios<any>(
     {
-      url: `${applicationConfig.dexybankUrl}/gold/mint/arbitrage?unconfirmed=1`,
+      url: `${applicationConfig.dexybankUrl}/gold/mint/arbitrage?ui=1`,
       method: 'GET',
     },
     { useCache: false },
