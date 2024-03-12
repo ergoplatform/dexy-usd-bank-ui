@@ -1,4 +1,4 @@
-import { Flex } from '@ergolabs/ui-kit';
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 

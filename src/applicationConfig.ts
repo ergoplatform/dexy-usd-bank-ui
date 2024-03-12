@@ -13,6 +13,8 @@ export interface ApplicationConfig {
   readonly spectrumUrl: string;
   readonly dexybankUrl: string;
   readonly dexyOraclePool: string;
+  readonly dexyTradeLink: string;
+  readonly dexyProvideLiquidity: string;
 }
 
 export const applicationConfig: ApplicationConfig = {
@@ -31,4 +33,8 @@ export const applicationConfig: ApplicationConfig = {
   dexybankUrl: 'https://api-testnet.dexygold.com/api',
   dexyOraclePool:
     'https://explorer.ergoplatform.com/en/oracle-pool-state/xauerg',
+  dexyTradeLink:
+    'https://dexy.interface-ggd.pages.dev/ergo/swap?base=0000000000000000000000000000000000000000000000000000000000000000&quote=0d69a552b30df9be519099ec07682039b0610267aaee48d2a1d3dad398287ef5&initialPoolId=0fa04f3851b18085f160d90bc3dba1c63f2fdc73f884c9fd94395dbfc9c293b6',
+  dexyProvideLiquidity:
+    'https://dexy.interface-ggd.pages.dev/ergo/liquidity/0fa04f3851b18085f160d90bc3dba1c63f2fdc73f884c9fd94395dbfc9c293b6',
 };

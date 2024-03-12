@@ -4865,10 +4865,10 @@ detect-port-alt@^1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
-dexy-sdk-ts@0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.2.3.tgz#abbf4a0563413dcbce1349cdd02b70a24f3f8b8d"
-  integrity sha512-Fvcziq/7O/++YWx+zAuYrtTcLZ/6iB2TKO4SjG9lHX5r0JXBo/EI/fngfFsq1TWDIbbxma5tbT7c3HJCuOaChA==
+dexy-sdk-ts@0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.2.4.tgz#7eedc35b90e86ab19242fa36257384135dc7b85b"
+  integrity sha512-9M8XL3SOGfERPNq8T+lgEicvnfmHlr3Vg9EPPrxwV0mGTS6/odpAl3NzKUzBQdP2TwVN7IvOfTqrtdTnmr9sng==
   dependencies:
     "@ergolabs/ergo-sdk" "^0.5.6"
     ergo-lib-wasm-browser "^0.23.0"

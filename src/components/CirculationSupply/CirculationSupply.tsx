@@ -143,7 +143,7 @@ export const CirculationSupply: React.FC = () => {
       <Flex col position="relative">
         <Flex.Item marginTop={4} marginLeft={4} marginRight={4}>
           <Flex align="center">
-            <Typography.Text>Circulation Supply</Typography.Text>
+            <Typography.Text>Circulating Supply</Typography.Text>
             {!s && <Flex.Item marginLeft="auto">{tabs}</Flex.Item>}
           </Flex>
         </Flex.Item>

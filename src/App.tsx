@@ -1,8 +1,11 @@
 import {
+  Box,
   Col,
   ContextModalProvider,
   Flex,
   Row,
+  Space,
+  Typography,
   useDevice,
 } from '@ergolabs/ui-kit';
 import { DateTime, Interval } from 'luxon';
@@ -57,45 +60,58 @@ export const App: FC = () => {
     <>
       {applicationReady && (
         <ContextModalProvider>
-          <Container col>
-            <Glow />
-            <Flex.Item>
-              <Header />
-            </Flex.Item>
-
-            <Flex.Item
-              marginTop={valBySize(5, 5, 20)}
-              style={{ paddingBottom: '100px' }}
-            >
-              <Content col={valBySize(true, true, false)}>
-                <Col
-                  span={valBySize(24, 24, 12)}
-                  style={{
-                    paddingRight: valBySize('0', '0', '16px'),
-                    paddingBottom: valBySize('16px', '16px', '0'),
-                  }}
+          <div>
+            <Flex justify="center" style={{ background: '#0ca581' }}>
+              <Box padding={1} transparent bordered={false}>
+                <Typography.Link
+                  href="https://docs.ergoplatform.com/eco/dexy/"
+                  style={{ color: 'white' }}
+                  target="_blank"
                 >
-                  <Flex col>
-                    <Flex.Item marginBottom={4}>
-                      <BankInfo />
-                    </Flex.Item>
-                    <Flex.Item marginBottom={4}>
-                      <MintForm />
-                    </Flex.Item>
-                    <Flex.Item>
-                      <TradeInfo />
-                    </Flex.Item>
-                  </Flex>
-                </Col>
-                <Col span={valBySize(24, 24, 12)}>
-                  <Content gap={4} col>
-                    <BankReservesGraph />
-                    <CirculationSupply />
-                  </Content>
-                </Col>
-              </Content>
-            </Flex.Item>
-          </Container>
+                  Check how it works ↗️
+                </Typography.Link>
+              </Box>
+            </Flex>
+            <Container col>
+              <Glow />
+              <Flex.Item>
+                <Header />
+              </Flex.Item>
+
+              <Flex.Item
+                marginTop={valBySize(5, 5, 20)}
+                style={{ paddingBottom: '100px' }}
+              >
+                <Content col={valBySize(true, true, false)}>
+                  <Col
+                    span={valBySize(24, 24, 12)}
+                    style={{
+                      paddingRight: valBySize('0', '0', '16px'),
+                      paddingBottom: valBySize('16px', '16px', '0'),
+                    }}
+                  >
+                    <Flex col>
+                      <Flex.Item marginBottom={4}>
+                        <BankInfo />
+                      </Flex.Item>
+                      <Flex.Item marginBottom={4}>
+                        <MintForm />
+                      </Flex.Item>
+                      <Flex.Item>
+                        <TradeInfo />
+                      </Flex.Item>
+                    </Flex>
+                  </Col>
+                  <Col span={valBySize(24, 24, 12)}>
+                    <Content gap={4} col>
+                      <BankReservesGraph />
+                      <CirculationSupply />
+                    </Content>
+                  </Col>
+                </Content>
+              </Flex.Item>
+            </Container>
+          </div>
         </ContextModalProvider>
       )}
     </>

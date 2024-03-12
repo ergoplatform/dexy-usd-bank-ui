@@ -51,6 +51,8 @@ const BankInfo = () => {
         <div>
           <Typography.Link
             style={{ fontSize: valBySize('12px', '14px', '16px') }}
+            href={applicationConfig.dexyTradeLink}
+            target="_blank"
           >
             <Flex align="center" gap={0.5}>
               Liquidity pool price
