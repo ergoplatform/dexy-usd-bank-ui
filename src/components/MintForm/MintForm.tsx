@@ -9,6 +9,7 @@ import {
   Tag,
   Tooltip,
   Typography,
+  useDevice,
   useForm,
 } from '@ergolabs/ui-kit';
 import { ArbitrageMint, Mint } from 'dexy-sdk-ts';
@@ -53,6 +54,7 @@ export interface CommitmentFormModel {
 
 export const MintFormContainer: FC<MintFormProps> = ({ mint }) => {
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const { valBySize } = useDevice();
 
   const [balance] = useAssetsBalance();
   const form = useForm<CommitmentFormModel>({
@@ -149,8 +151,16 @@ export const MintFormContainer: FC<MintFormProps> = ({ mint }) => {
       >
         <Flex col>
           <Flex.Item marginBottom={6} justify="space-between">
-            <Typography.Title level={4}>
-              Mint DexyGold{' '}
+            <Flex
+              direction={valBySize('col', 'row')}
+              align={valBySize('flex-start', 'center')}
+            >
+              <Typography.Title
+                level={valBySize(4, 3)}
+                style={{ marginRight: valBySize('0', '4px') }}
+              >
+                Mint DexyGOLD{' '}
+              </Typography.Title>
               {mint.mintType() ? (
                 mint.mintType() === MintType.arbMint ? (
                   <Typography.Body style={{ color: 'rgb(138, 138, 138)' }}>
@@ -162,7 +172,7 @@ export const MintFormContainer: FC<MintFormProps> = ({ mint }) => {
                   </Typography.Body>
                 )
               ) : null}
-            </Typography.Title>
+            </Flex>
             <div>
               {isMintAvailable ? (
                 <Tag

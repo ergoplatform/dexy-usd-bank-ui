@@ -16,7 +16,7 @@ const TradeInfo = () => {
             target="_blank"
           >
             <Flex align="center" gap={0.5}>
-              Trade DexyGold
+              Trade DexyGOLD
               <OpenIcon />
             </Flex>
           </Typography.Link>

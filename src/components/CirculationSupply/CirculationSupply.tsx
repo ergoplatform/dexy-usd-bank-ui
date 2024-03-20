@@ -32,7 +32,6 @@ import { Truncate } from '../../common/components/Truncate/Truncate';
 import { useObservable } from '../../common/hooks/useObservable';
 import { CirculationSupplyData } from '../../common/models/CirculationSupplyData';
 import { Currency } from '../../common/models/Currency';
-import { bankReservesGraph } from '../../mockData/chart';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
 import { useChartData } from './useChartData';
 import { Period, usePeriodSettings } from './usePeriodSettings';
