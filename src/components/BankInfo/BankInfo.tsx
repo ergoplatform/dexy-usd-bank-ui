@@ -27,9 +27,13 @@ const BankInfo = () => {
 
   return (
     <Box borderRadius={'xl'} padding={4}>
-      <Flex.Item justify="space-between" marginBottom={valBySize(1, 2)}>
+      <Flex
+        justify="space-between"
+        style={{ marginBottom: valBySize('8px') }}
+        direction={valBySize('col', 'row')}
+      >
         <Typography.Link
-          style={{ fontSize: valBySize('12px', '14px', '16px') }}
+          style={{ fontSize: valBySize('14px', '16px') }}
           href={applicationConfig.dexyOraclePool}
           target="_blank"
         >
@@ -39,18 +43,16 @@ const BankInfo = () => {
           </Flex>
         </Typography.Link>
         <div>
-          <Typography.Body
-            style={{ fontSize: valBySize('12px', '14px', '16px') }}
-          >
+          <Typography.Body style={{ fontSize: valBySize('14px', '16px') }}>
             1 DexyGOLD = {new Currency(mint.oracleRate(), ergAsset).toString()}{' '}
             ERG
           </Typography.Body>
         </div>
-      </Flex.Item>
-      <Flex.Item justify="space-between">
+      </Flex>
+      <Flex justify="space-between" direction={valBySize('col', 'row')}>
         <div>
           <Typography.Link
-            style={{ fontSize: valBySize('12px', '14px', '16px') }}
+            style={{ fontSize: valBySize('14px', '16px') }}
             href={applicationConfig.dexyTradeLink}
             target="_blank"
           >
@@ -61,13 +63,11 @@ const BankInfo = () => {
           </Typography.Link>
         </div>
         <div>
-          <Typography.Body
-            style={{ fontSize: valBySize('12px', '14px', '16px') }}
-          >
+          <Typography.Body style={{ fontSize: valBySize('14px', '16px') }}>
             1 DexyGOLD = {new Currency(mint.lpRate(), ergAsset).toString()} ERG
           </Typography.Body>
         </div>
-      </Flex.Item>
+      </Flex>
     </Box>
   );
 };
