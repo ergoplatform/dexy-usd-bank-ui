@@ -1,10 +1,11 @@
+import { Amount, Box } from '@fleet-sdk/common';
 import { useCallback } from 'react';
 
 import { applicationConfig } from '../applicationConfig';
 import { useAxios } from '../utils/axios';
 
 export const useGoldMintArbitrage = () => {
-  const [requestState, runRequest] = useAxios<any>(
+  const [requestState, runRequest] = useAxios<Box<Amount>>(
     {
       url: `${applicationConfig.dexybankUrl}/gold/mint/arbitrage?ui=1`,
       method: 'GET',
