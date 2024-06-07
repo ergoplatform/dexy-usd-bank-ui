@@ -1381,7 +1381,7 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-sdk@^0.5.6", "@ergolabs/ergo-sdk@^0.5.7":
+"@ergolabs/ergo-sdk@^0.5.7":
   version "0.5.7"
   resolved "https://registry.npmjs.org/@ergolabs/ergo-sdk/-/ergo-sdk-0.5.7.tgz"
   integrity sha512-4hK5nKXdmqQOaBdNufdfOYLO41jnPOwAy8dOv1gveQRYYzlm2QXXIGMriyRGAhBD4rUa5afHSL+nTW7VMuGC3Q==
@@ -1564,6 +1564,46 @@
   version "8.44.0"
   resolved "https://registry.npmjs.org/@eslint/js/-/js-8.44.0.tgz"
   integrity sha512-Ag+9YM4ocKQx9AarydN0KY2j0ErMHNIocPDrVo8zAE44xLTjEtz81OdR68/cydGtk6m6jDb5Za3r2useMzYmSw==
+
+"@fleet-sdk/common@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@fleet-sdk/common/-/common-0.3.4.tgz#bd343ae03171b681444c51cc81e6a9021d660d1f"
+  integrity sha512-FzrjElAy2hmxuXkFnTITGQKS7tsO9DIqyN7a1ki5T/REdTAHgZX3LseZUf0zuzjH21arez81kAnNYU+yBOJtRg==
+
+"@fleet-sdk/core@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@fleet-sdk/core/-/core-0.3.4.tgz#83cacd01d561478bfdd507fa499cf0e9cd732b14"
+  integrity sha512-lPjKiRLKQwwboRSpjAF40oaTKVKMN00zSpVy6dl9coEZpaKImu+dyqJ2CjpyXi4WlHg9RlEB0yB4m2UL5m4/tA==
+  dependencies:
+    "@fleet-sdk/common" "^0.3.4"
+    "@fleet-sdk/crypto" "^0.3.4"
+    "@fleet-sdk/serializer" "^0.3.4"
+
+"@fleet-sdk/crypto@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@fleet-sdk/crypto/-/crypto-0.3.4.tgz#a11705a14aaf8533135b8855b894c8eced8d4fd3"
+  integrity sha512-JBxFOmBdZq2fUT1noDolidT0B2D0ZRbo2jSLLs6KY/HTDvF5FM6/2xN0LHdObkESC60Jwb/slGxErVhgl0ck1Q==
+  dependencies:
+    "@fleet-sdk/common" "^0.3.4"
+    "@noble/hashes" "^1.3.2"
+    "@scure/base" "^1.1.3"
+
+"@fleet-sdk/serializer@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@fleet-sdk/serializer/-/serializer-0.3.4.tgz#15de4177ff1623b2b4e54aacc3cfeccaa8c022f1"
+  integrity sha512-IfEKQQeVIa4IRK23//oOheqZDxNffA/jCasEp/YuEDJIY/BGZjrnlGNGGPHJU/OvIROHYWHL5mCeGtihVQfwmg==
+  dependencies:
+    "@fleet-sdk/common" "^0.3.4"
+    "@fleet-sdk/crypto" "^0.3.4"
+
+"@fleet-sdk/wallet@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@fleet-sdk/wallet/-/wallet-0.3.4.tgz#65422b40e982858fa6b7c4678921d30f14e73837"
+  integrity sha512-EML6cOCnAXSCJ8skHepl7IawXMiHFvaN/+S04FqCVhQhXjqT782KGYxvqUFMKdgeEnXyYnN/J3fhDa9lCrbMOA==
+  dependencies:
+    "@fleet-sdk/core" "^0.3.4"
+    "@scure/bip32" "^1.3.2"
+    "@scure/bip39" "^1.2.1"
 
 "@gar/promisify@^1.0.1":
   version "1.1.3"
@@ -1886,6 +1926,18 @@
   resolved "https://registry.npmjs.org/@nicolo-ribaudo/semver-v6/-/semver-v6-6.3.3.tgz"
   integrity sha512-3Yc1fUTs69MG/uZbJlLSI3JISMn2UV2rg+1D/vROUqZyh3l6iYHCs7GMp+M40ZD7yOdDbYjJcU1oTJhrc+dGKg==
 
+"@noble/curves@~1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.4.0.tgz#f05771ef64da724997f69ee1261b2417a49522d6"
+  integrity sha512-p+4cb332SFCrReJkCYe8Xzm0OWi4Jji5jVdIZRL/PmacmDkFNw6MrrV+gGpiPxLHbV+zKFRywUWbaseT+tZRXg==
+  dependencies:
+    "@noble/hashes" "1.4.0"
+
+"@noble/hashes@1.4.0", "@noble/hashes@^1.3.2", "@noble/hashes@~1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.4.0.tgz#45814aa329f30e4fe0ba49426f49dfccdd066426"
+  integrity sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -2016,6 +2068,28 @@
   version "1.3.2"
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.3.2.tgz"
   integrity sha512-V+MvGwaHH03hYhY+k6Ef/xKd6RYlc4q8WBx+2ANmipHJcKuktNcI/NgEsJgdSUF6Lw32njT6OnrRsKYCdgHjYw==
+
+"@scure/base@^1.1.3", "@scure/base@~1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@scure/base/-/base-1.1.6.tgz#8ce5d304b436e4c84f896e0550c83e4d88cb917d"
+  integrity sha512-ok9AWwhcgYuGG3Zfhyqg+zwl+Wn5uE+dwC0NV/2qQkx4dABbb/bx96vWu8NSj+BNjjSjno+JRYRjle1jV08k3g==
+
+"@scure/bip32@^1.3.2":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@scure/bip32/-/bip32-1.4.0.tgz#4e1f1e196abedcef395b33b9674a042524e20d67"
+  integrity sha512-sVUpc0Vq3tXCkDGYVWGIZTRfnvu8LoTDaev7vbwh0omSvVORONr960MQWdKqJDCReIEmTj3PAr73O3aoxz7OPg==
+  dependencies:
+    "@noble/curves" "~1.4.0"
+    "@noble/hashes" "~1.4.0"
+    "@scure/base" "~1.1.6"
+
+"@scure/bip39@^1.2.1":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@scure/bip39/-/bip39-1.3.0.tgz#0f258c16823ddd00739461ac31398b4e7d6a18c3"
+  integrity sha512-disdg7gHuTDZtY+ZdkmLpPCk7fxZSu3gBiEGuoC1XYxv9cGx3Z6cpTggCgW6odSOOIXCiDjuGejW+aJKCY/pIQ==
+  dependencies:
+    "@noble/hashes" "~1.4.0"
+    "@scure/base" "~1.1.6"
 
 "@sinclair/typebox@^0.24.1":
   version "0.24.51"
@@ -4865,14 +4939,15 @@ detect-port-alt@^1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
-dexy-sdk-ts@0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.2.4.tgz#7eedc35b90e86ab19242fa36257384135dc7b85b"
-  integrity sha512-9M8XL3SOGfERPNq8T+lgEicvnfmHlr3Vg9EPPrxwV0mGTS6/odpAl3NzKUzBQdP2TwVN7IvOfTqrtdTnmr9sng==
+dexy-sdk-ts@0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/dexy-sdk-ts/-/dexy-sdk-ts-0.3.3.tgz#872d5b509b69afdb2352f26e4cb8cfe071ea3053"
+  integrity sha512-vnh9MXERPWdB/JUxdKOgML/Wllqb2ywdJyx/rlP4mhypFq3vcyWUR6dd96USamz81VHjGWm0P+zu1vNwZiwsFw==
   dependencies:
-    "@ergolabs/ergo-sdk" "^0.5.6"
-    ergo-lib-wasm-browser "^0.23.0"
-    ergo-lib-wasm-nodejs "^0.23.0"
+    "@fleet-sdk/common" "^0.3.4"
+    "@fleet-sdk/core" "^0.3.4"
+    "@fleet-sdk/serializer" "^0.3.4"
+    "@fleet-sdk/wallet" "^0.3.4"
 
 didyoumean@^1.2.2:
   version "1.2.2"
@@ -5128,11 +5203,6 @@ ergo-lib-wasm-nodejs@0.20.1, ergo-lib-wasm-nodejs@^0.20.1:
   version "0.20.1"
   resolved "https://registry.npmjs.org/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.20.1.tgz"
   integrity sha512-2jGQ21HWQdsA9hOXr2DJS7iq32uIQHL45hxfNJ1VnYRUbVkQRpBWB7PRFKZvlIlZT6dIifcg8IacF6hqBOfB2g==
-
-ergo-lib-wasm-nodejs@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.npmjs.org/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.23.0.tgz"
-  integrity sha512-1CMiu2gM8c9F4LqQ+j4ib2CS9FTTvnwxKYGQvkZN7beaiIqPFr1AQvMVT3dn/9JfQmEz9zcp2OejvIamcQitFQ==
 
 err-code@^2.0.2:
   version "2.0.3"

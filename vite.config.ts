@@ -40,6 +40,15 @@ export default defineConfig({
         find: /^~(.*)$/,
         replacement: '$1',
       },
+      {
+        find: /@fleet-sdk\/common/,
+        replacement: path.resolve(
+          __dirname,
+          'node_modules',
+          '@fleet-sdk',
+          'common',
+        ),
+      },
     ],
   },
   css: {

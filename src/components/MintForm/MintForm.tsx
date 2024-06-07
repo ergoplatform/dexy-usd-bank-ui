@@ -1,4 +1,3 @@
-import { ErgoBox, RustModule } from '@ergolabs/ergo-sdk';
 import {
   ArrowLeftOutlined,
   Box,
@@ -12,7 +11,7 @@ import {
   useDevice,
   useForm,
 } from '@ergolabs/ui-kit';
-import { ArbitrageMint, Mint } from 'dexy-sdk-ts';
+import { Mint } from 'dexy-sdk-ts';
 import React, { FC, ReactNode, useMemo, useState } from 'react';
 import { skip } from 'rxjs';
 
@@ -238,10 +237,7 @@ export const MintForm = () => {
     return null;
   }
 
-  const mint = new Mint(
-    RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(oracle)),
-    RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(lpBox)),
-  );
+  const mint = new Mint(oracle, lpBox);
 
   return <MintFormContainer mint={mint} />;
 };

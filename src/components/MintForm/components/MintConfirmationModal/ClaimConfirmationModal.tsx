@@ -1,9 +1,4 @@
-import {
-  ergoBoxToProxy,
-  ErgoTx,
-  RustModule,
-  UnsignedErgoTx,
-} from '@ergolabs/ergo-sdk';
+import { ergoBoxToProxy, UnsignedErgoTx } from '@ergolabs/ergo-sdk';
 import {
   Box,
   Button,
@@ -12,12 +7,8 @@ import {
   Modal,
   Typography,
 } from '@ergolabs/ui-kit';
-import {
-  ArbitrageMint,
-  FreeMint,
-  Mint,
-  unsignedTxConnectorProxy,
-} from 'dexy-sdk-ts';
+import { ErgoAddress } from '@fleet-sdk/core';
+import { ArbitrageMint, FreeMint, Mint } from 'dexy-sdk-ts';
 import React, { FC } from 'react';
 import { Observable } from 'rxjs';
 
@@ -97,26 +88,14 @@ export const MintConfirmationModal: FC<MintConfirmationModalProps> = ({
 
     const txData = {
       txFee: 1000000,
-      arbitrageMintIn: RustModule.SigmaRust.ErgoBox.from_json(
-        JSON.stringify(goldMintBox),
-      ),
-      freeMintBox: RustModule.SigmaRust.ErgoBox.from_json(
-        JSON.stringify(freeMintBox),
-      ),
-      lpIn: RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(lpBox)),
-      tracking101: RustModule.SigmaRust.ErgoBox.from_json(
-        JSON.stringify(trackingBox),
-      ),
-      oracleBox: RustModule.SigmaRust.ErgoBox.from_json(
-        JSON.stringify(oracleBox),
-      ),
-      bankIn: RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(bankBox)),
-      userIn: RustModule.SigmaRust.ErgoBoxes.from_boxes_json(
-        utxos.map((utxo) => ergoBoxToProxy(utxo)),
-      ),
-      buybackBox: RustModule.SigmaRust.ErgoBox.from_json(
-        JSON.stringify(buybackBox),
-      ),
+      arbitrageMintIn: goldMintBox,
+      freeMintBox: freeMintBox,
+      lpIn: lpBox,
+      tracking101: trackingBox,
+      oracleBox: oracleBox,
+      bankIn: bankBox,
+      userIn: utxos.map((utxo) => ergoBoxToProxy(utxo) as any),
+      buybackBox: buybackBox,
     };
 
     const mint = new Mint(txData.oracleBox, txData.lpIn);
@@ -130,14 +109,14 @@ export const MintConfirmationModal: FC<MintConfirmationModalProps> = ({
         txData.buybackBox,
         txData.bankIn,
         txData.userIn,
-        RustModule.SigmaRust.Address.from_base58(address[0]),
+        ErgoAddress.fromBase58(address[0]),
         txData.tracking101,
         networkContext.height,
       );
 
-      const tx = unsignedTxConnectorProxy(arbitrageMintTX);
+      const unsignedArbMintTx = arbitrageMintTX as unknown as UnsignedErgoTx;
 
-      onClose(submitMintTx(tx));
+      onClose(submitMintTx(unsignedArbMintTx));
     } else {
       const freeMint = mint.getMintObject() as FreeMint;
       const freeMintTx = freeMint.createFreeMintTransaction(
@@ -147,12 +126,13 @@ export const MintConfirmationModal: FC<MintConfirmationModalProps> = ({
         txData.buybackBox,
         txData.bankIn,
         txData.userIn,
-        RustModule.SigmaRust.Address.from_base58(address[0]),
+        ErgoAddress.fromBase58(address[0]),
         networkContext.height,
       );
-      const unsignedTx = unsignedTxConnectorProxy(freeMintTx);
+      const unsignedFreeMintTx =
+        freeMintTx.toEIP12Object() as unknown as UnsignedErgoTx;
 
-      onClose(submitMintTx(unsignedTx));
+      onClose(submitMintTx(unsignedFreeMintTx));
     }
   };
 

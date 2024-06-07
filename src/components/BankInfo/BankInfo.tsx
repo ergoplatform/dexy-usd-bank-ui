@@ -1,4 +1,3 @@
-import { RustModule } from '@ergolabs/ergo-sdk';
 import { Box, Flex, Typography, useDevice } from '@ergolabs/ui-kit';
 import { Mint } from 'dexy-sdk-ts';
 import React from 'react';
@@ -20,10 +19,7 @@ const BankInfo = () => {
     return null;
   }
 
-  const mint = new Mint(
-    RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(oracle)),
-    RustModule.SigmaRust.ErgoBox.from_json(JSON.stringify(lpBox)),
-  );
+  const mint = new Mint(oracle, lpBox);
 
   return (
     <Box borderRadius={'xl'} padding={4}>
